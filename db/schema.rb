@@ -27,10 +27,10 @@ ActiveRecord::Schema.define(version: 20180321212143) do
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.integer "product_id"
-    t.integer "order_id"
-    t.integer "quantity"
-    t.decimal "unit_price"
+    t.integer "product_id", null: false
+    t.integer "order_id", null: false
+    t.integer "quantity", null: false
+    t.decimal "unit_price", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"

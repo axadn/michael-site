@@ -1,10 +1,10 @@
 class CreateOrderItems < ActiveRecord::Migration[5.1]
   def change
     create_table :order_items do |t|
-      t.integer :product_id
-      t.integer :order_id
-      t.integer :quantity
-      t.decimal :unit_price
+      t.integer :product_id, null: false
+      t.integer :order_id, null: false
+      t.integer :quantity, null: false
+      t.decimal :unit_price, null: false
       t.timestamps
     end
     add_index :order_items, :order_id
