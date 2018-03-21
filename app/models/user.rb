@@ -1,8 +1,9 @@
 class User < ApplicationRecord
     attr_accessor :password
     validates :email, :first_name, :last_name, :password, :password_digest, :is_admin,
-        presence: true
-    has_many :addresses, class_name: "address", foreign_key: "user_id"
+        presence: true, uniqueness: true
+    has_many :orders
+    has_many :addresses
     def password=(new_password)
         @password = new_password
         self.password_digest = BCrypt::Password.create(new_password)
