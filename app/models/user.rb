@@ -2,9 +2,9 @@ class User < ApplicationRecord
     attr_accessor :password
     validates :email, :first_name, :last_name, :password, :password_digest, :is_admin,
         presence: true, uniqueness: true
-    has_many :orders, dependent: destroy
-    has_many :addresses, dependent: destroy
-    has_one :session, dependent: destroy
+    has_many :orders, dependent: :destroy
+    has_many :addresses, dependent: :destroy
+    has_one :session, dependent: :destroy
     def password=(new_password)
         @password = new_password
         self.password_digest = BCrypt::Password.create(new_password)
@@ -31,5 +31,5 @@ class User < ApplicationRecord
         return user if user && user.is_password?(opts[:password])
         nil
     end
-    
+
 end
