@@ -4,6 +4,7 @@ class User < ApplicationRecord
         presence: true, uniqueness: true
     has_many :orders
     has_many :addresses
+    has_one :session
     def password=(new_password)
         @password = new_password
         self.password_digest = BCrypt::Password.create(new_password)
