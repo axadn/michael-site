@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180322021151) do
+ActiveRecord::Schema.define(version: 20180322063321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20180322021151) do
   create_table "sessions", force: :cascade do |t|
     t.string "token", null: false
     t.integer "user_id"
+    t.integer "cart_id"
     t.index ["token"], name: "index_sessions_on_token", unique: true
   end
 
@@ -78,4 +79,5 @@ ActiveRecord::Schema.define(version: 20180322021151) do
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "sessions", "orders", column: "cart_id"
 end

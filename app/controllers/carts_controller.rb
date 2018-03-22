@@ -1,6 +1,7 @@
-class CartController < ApplicationController
+class CartsController < ApplicationController
     
-    def fetch_user 
+    def fetch_user
+        byebug
         @user = Session.find_by(token: session[:session_token]).user.inlcudes(cart: :order_items)
     end
     
@@ -13,6 +14,7 @@ class CartController < ApplicationController
     end
 
     def show
+        fetch_user
         fetch_cart
         render :show
     end

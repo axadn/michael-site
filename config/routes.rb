@@ -5,9 +5,9 @@ Rails.application.routes.draw do
     resources :products
     resources :addresses, except: [:index]
     resource :session, only: [:create, :destroy]
+    resource :cart, only: [:show, :update, :destroy]
     resources :users, only: [:create, :show] do
       resources :addresses, only: [:index]
-      resource :cart, only: [:show, :update, :destroy]
     end
   end
 end
