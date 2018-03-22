@@ -18,7 +18,12 @@ class User < ApplicationRecord
         self.session.destroy
     end
 
+    def logged_in?
+        !self.session_id.nil?
+    end
+
     def login
+        logout if logged_in?
         loop do
             new_session = Session.new token: SecureRandom.urlsafe_base64,
                 user: self
