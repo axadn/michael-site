@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   scope '/api' do
     resources :products
     resources :addresses, except: [:index]
+    resource :session, only: [:create, :destroy]
     resources :users, only: [:create, :show] do
       resources :addresses, only: [:index]
       resource :cart, only: [:show, :update, :destroy]
