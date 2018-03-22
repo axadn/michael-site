@@ -3,6 +3,7 @@ class UsersController < ApplicationController
     def create
         @user = User.create user_params
         if @user.save
+            @user.login
             render :show
         else 
             render json: @user.errors.messages, status: 422
