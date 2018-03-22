@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
     before_action :require_admin, except: [:index, :show]
     def index
-        @products = products.all
+        @products = Product.all
         render :index
     end
 
