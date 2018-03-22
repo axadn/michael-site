@@ -2,11 +2,11 @@ class CartsController < ApplicationController
     before_action :ensure_cart
 
     def ensure_cart
-        @session = Session.find_by(token: session[:session_token]).inlcudes(cart: :order_items)
+        @session = Session.includes(cart: {order_items: :product}).find_by(token: session[:session_token])
         if !@session
             @session = create_session
-            @cart = @session.cart
         end
+        @cart = @session.cart
     end
 
     def fetch_order_item
@@ -18,8 +18,8 @@ class CartsController < ApplicationController
     end
 
     def update
-        @action = params[:action]
-        type = action[:type]
+        @action = params[:cart][:action]
+        type = @action[:type]
         case type
         when 'UPDATE_QUANTITY'
             fetch_order_item
@@ -40,14 +40,20 @@ class CartsController < ApplicationController
                 render json: {general: 'item not found'}, status: 404
             end
         when 'ADD_ITEM'
-            @order_item = OrderItem.new product_id: @action[:product_id],
+            product = Product.find_by(id: @action[:product_id])
+            if product
+                @order_item = OrderItem.new product_id: @action[:product_id],
                 quantity: @action[:quantity],
-                order_id: @action[:order_id]
-            if @order_item.save
-                render json: 'success'
+                order_id: @action[:order_id],
+                unit_price: product.unit_price
+                if @order_item.save
+                    render json: 'success'
+                else
+                    render json: @order_item.errors.messages, status: 422
+                end 
             else
-                render json: @order_item.errors.messages, status: 422
-            end 
+                render json: {general: 'product not found'}, status: 404
+            end
         end
     end
 end
