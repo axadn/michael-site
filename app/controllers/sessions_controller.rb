@@ -1,17 +1,20 @@
-class SessionController < ApplicationController
+class SessionsController < ApplicationController
     def create
         @user = User.find_by_credentials login_params
         if @user
-            @user.login
+            login(@user)
+            render json: "success"
         else
             render json: {general: "invalid username or password"}, status: 422
         end
     end
 
     def destroy
-        @session = Session.find_by(token: session[:session_token])
+        @session = (session.key? :session_token) ? Session.find_by(
+            token: session[:session_token]) : nil
         if @session
-            @session.destroy
+            logout(@session)
+            render json: "success"
         else
             render json: {general: "not logged in"}, status: 403
         end

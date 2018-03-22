@@ -1,7 +1,8 @@
 class User < ApplicationRecord
     attr_accessor :password
     validates :email, :first_name, :last_name, :password_digest,
-        presence: true, uniqueness: true
+        presence: true
+    validates :email, uniqueness: true
     has_many :orders, dependent: :destroy
     has_many :addresses, dependent: :destroy
     has_one :session, dependent: :destroy
@@ -14,21 +15,8 @@ class User < ApplicationRecord
         BCrypt::Password.new(self.password_digest).is_password? pass 
     end
 
-    def logout
-        self.session.destroy
-    end
-
     def logged_in?
-        !self.session_id.nil?
-    end
-
-    def login
-        logout if logged_in?
-        loop do
-            new_session = Session.new token: SecureRandom.urlsafe_base64,
-                user: self
-            break if new_session.save
-        end
+        !self.session.nil?
     end
 
     def self.find_by_credentials(opts)
