@@ -1,21 +1,19 @@
 class CartsController < ApplicationController
-    
-    def fetch_user
-        byebug
-        @user = Session.find_by(token: session[:session_token]).user.inlcudes(cart: :order_items)
-    end
-    
-    def fetch_cart
-        @cart = @user.cart || Cart.new
+    before_action :ensure_cart
+
+    def ensure_cart
+        @session = Session.find_by(token: session[:session_token]).inlcudes(cart: :order_items)
+        if !@session
+            @session = create_session
+            @cart = @session.cart
+        end
     end
 
     def fetch_order_item
-        @order_item = cart.order_items.where(id: @action[:order_item_id])
+        @order_item = @cart.order_items.where(id: @action[:order_item_id])
     end
 
     def show
-        fetch_user
-        fetch_cart
         render :show
     end
 

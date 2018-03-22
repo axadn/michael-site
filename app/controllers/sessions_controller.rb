@@ -2,7 +2,17 @@ class SessionsController < ApplicationController
     def create
         @user = User.find_by_credentials login_params
         if @user
-            login(@user)
+            if session.key? :session_token
+                old_session = Session.find_by(token: session[:session_token])
+                @cart = old_session.cart
+            end
+
+            if @cart && @cart.order_items.length > 0
+                login(@user, @cart)
+            else
+                login(@user)
+            end
+
             render json: "success"
         else
             render json: {general: "invalid username or password"}, status: 422
@@ -10,6 +20,7 @@ class SessionsController < ApplicationController
     end
 
     def destroy
+        byebug
         @session = (session.key? :session_token) ? Session.find_by(
             token: session[:session_token]) : nil
         if @session
