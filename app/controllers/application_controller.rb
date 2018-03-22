@@ -18,7 +18,6 @@ class ApplicationController < ActionController::Base
   def create_session(user, cart)
     new_session = nil
     loop do
-      debugger
       new_session = Session.new token: SecureRandom.urlsafe_base64,
           user: user, cart: cart
       break if new_session.save
