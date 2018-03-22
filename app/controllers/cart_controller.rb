@@ -1,7 +1,7 @@
 class CartController < ApplicationController
     
     def fetch_user 
-        @user = User.find_by(id: params[:user_id]).inlcudes(cart: :order_items)
+        @user = Session.find_by(token: session[:session_token]).user.inlcudes(cart: :order_items)
     end
     
     def fetch_cart
