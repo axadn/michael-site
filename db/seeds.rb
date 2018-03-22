@@ -10,7 +10,7 @@ User.create(email: 'admin@example.com', first_name: 'Michael', last_name: 'Lee',
     password: 'password', is_admin: true)
 
 Product.create(title: "Default Underwear", description: "sexy underwear. comfortable underwear",
-    category: "underwear", price: 30.5, active: true)
+    category: "underwear", unit_price: 30.5, active: true)
 
 Product.create(title: "Invisible Underwear", description: "sexy underwear. comfortable underwear",
-    category: "underwear", price: 30.5, active: false)
+    category: "underwear", unit_price: 30.5, active: false)

@@ -6,8 +6,12 @@ class ProductsController < ApplicationController
     end
 
     def show
-        @product = product.find(params[:id])
-        render :show
+        @product = Product.find_by(id: params[:id])
+        if @product
+            render :show
+        else
+            render json: {general: 'no such product'}, status: 404
+        end
     end
 
     def create

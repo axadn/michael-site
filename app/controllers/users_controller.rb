@@ -1,4 +1,4 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
 
     def create
         @user = User.create user_params
@@ -14,7 +14,8 @@ class UserController < ApplicationController
         if @user 
             render :show
         else
-        else render json: {general: ['no such user']}, status: 404
+            render json: {general: ['no such user']}, status: 404
+        end
     end
 
     def user_params
