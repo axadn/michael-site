@@ -1,6 +1,6 @@
 class User < ApplicationRecord
     attr_accessor :password
-    validates :email, :first_name, :last_name, :password_digest, :is_admin,
+    validates :email, :first_name, :last_name, :password_digest,
         presence: true, uniqueness: true
     has_many :orders, dependent: :destroy
     has_many :addresses, dependent: :destroy
