@@ -1,15 +1,16 @@
 class CartsController < ApplicationController
     before_action :ensure_cart
     def ensure_cart
-        @session = Session.includes(cart: {order_items: :product}).find_by(token: session[:session_token])
-        if !@session
-            @session = create_session(nil, Order.create(status: "cart"))
+        @cart = Order.joins("INNER JOIN sessions ON sessions.cart_id = orders.id")
+            .where("sessions.token = ?", session[:session_token]).first
+        if !@cart
+            @cart = create_session(nil, Order.create(status: "cart")).cart
         end
-        @cart = @session.cart
+        @order_items = OrderItem.includes(:product).order("products.title ASC")
     end
 
     def fetch_order_item
-        @order_item = @cart.order_items.find_by(id: @action[:order_item_id])
+        @order_item = @order_items.find_by(id: @action[:order_item_id])
         render json: {general: 'item not found'}, status: 404 if @order_item.nil?
         @order_item
     end
@@ -26,11 +27,6 @@ class CartsController < ApplicationController
             if fetch_order_item
                 @order_item.quantity = @action[:quantity]
                 if @order_item.save
-                    @cart.order_items.each do |item|
-                        if item.id == @action[:order_item_id]
-                            item.quantity = @action[:quantity]
-                        end
-                    end
                     render :show
                 else
                     render json: @order_item.errors.messages, status: 422
@@ -38,7 +34,7 @@ class CartsController < ApplicationController
             end
         when 'DELETE_ITEM'
             if fetch_order_item
-                @cart.order_items.delete(@order_item)
+                @order_items.delete(@order_item)
                 render :show
             end
         when 'ADD_ITEM'

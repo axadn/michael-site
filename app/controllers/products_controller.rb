@@ -1,7 +1,12 @@
 class ProductsController < ApplicationController
     before_action :require_admin, except: [:index, :show]
     def index
-        @products = Product.all
+        if params["?query"]
+            categories = params[:categories].split(',') if params[:categories]
+            @products = Product.search_by_title(params["?query"])
+        else
+            @products = Product.order('title ASC').all
+        end
         render :index
     end
 

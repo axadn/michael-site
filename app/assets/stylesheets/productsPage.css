@@ -1,0 +1,39 @@
+.product-page{
+    display:flex;
+    flex-direction: row;
+}
+.product-search-options{
+    width: 250px;
+    display: inline-block;
+}
+.product-search-options ul{
+    list-style: none;
+}
+
+.products-index{
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+.product-item{
+    padding: 10px;
+    width: 220px;
+}
+
+.product-item img{
+    width: 200px;
+    height: 300px;
+}
+.product-item img:hover{
+    cursor: pointer;
+}
+
+.product-item h3 {
+    padding: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.product-item h3:hover {
+    cursor: pointer;
+}
+
