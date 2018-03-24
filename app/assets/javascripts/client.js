@@ -1003,7 +1003,9 @@ var QuantitySelector = function (_React$Component) {
         value: function handleClick(e) {
             var _this2 = this;
 
-            this.activateEvent = e.nativeEvent;
+            if (!this.state.active) {
+                this.activateEvent = e.nativeEvent;
+            }
             this.setState(function (state) {
                 if (!state.active) {
                     window.addEventListener("click", _this2.hide);

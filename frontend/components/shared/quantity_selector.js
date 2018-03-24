@@ -8,7 +8,9 @@ export default class QuantitySelector extends React.Component{
         this.hide = this.hide.bind(this);
     }
     handleClick(e){
-        this.activateEvent = e.nativeEvent;
+        if(!this.state.active){
+            this.activateEvent = e.nativeEvent;
+        }
         this.setState(state=>{
             if(!state.active){
                 window.addEventListener("click", this.hide);
