@@ -1,0 +1,35 @@
+.quantity-selector{
+    width: 100px;
+    height: 100%;
+    box-sizing: border-box;
+    padding:10px;
+    margin: 0;
+    margin-right: 10px;
+    margin-left: 10px;
+    border: 1px solid #BEBEBE;
+    position: relative;
+}
+
+.quantity-selector:hover{
+    cursor: pointer;
+    border: 1px solid black;
+}
+.quantity-selector-list{
+    width: 100%;
+    z-index: 115;
+    top: 100%;
+    left: -1px;
+    position: absolute;
+    background: white;
+    border: 1px solid #BEBEBE;
+    margin: 0;
+    box-sizing: content-box;
+}
+
+.price{
+    width: 50px;
+}
+
+button:hover{
+    cursor: pointer;
+}

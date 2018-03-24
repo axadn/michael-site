@@ -1,5 +1,6 @@
 import React from 'react';
 import {withRouter} from "react-router-dom";
+import QuantitySelector from "../shared/quantity_selector";
 import axios from "axios";
 class ProductShow extends React.Component{
     constructor(props){
@@ -15,7 +16,7 @@ class ProductShow extends React.Component{
 
     }
     handleQuantityChange(e){
-        const quantity = e.target.value;
+        const quantity = e.target.dataset.value;
         this.setState(Object.assign({}, this.state, {quantity}));
     }
     handleAddToCart(e){
@@ -41,13 +42,12 @@ class ProductShow extends React.Component{
             <img className="product-show-img" src={this.state.product.image_url}/>
             <div className="product-show-right">
                 <h3 className="product-show-title">{this.state.product.title}</h3>
+                <div className="price">${this.state.product.unit_price}</div>
                 <div className="product-show-quantity-selection">
-                    <div className="product-show-unit-price">${this.state.product.unit_price}</div>
-                    x
-                    <input type="number" min="1" value={this.state.quantity} increment="1" onChange={this.handleQuantityChange}/>
-                    <div className = "product-show-total">
-                        ${this.state.quantity * this.state.product.unit_price}
-                    </div>
+                    <QuantitySelector max={12} 
+                        quantity={this.state.quantity}
+                        handleChange={this.handleQuantityChange}/>
+                    
                     <button onClick={this.handleAddToCart}> Add To Cart </button>
                 </div>
                 <div className="product-show-description">{this.state.product.description}</div>

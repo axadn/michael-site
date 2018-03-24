@@ -6,6 +6,6 @@ return <div className = "product-item">
     <h3 onClick={()=>window.location=`/#/products/${props.product.id}`}>
         {props.product.title}
     </h3>
-    <div className="product-price">{props.product.unit_price}</div>
+    <div className="price">${props.product.unit_price}</div>
 </div>;
 }

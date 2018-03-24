@@ -18,14 +18,16 @@ export default class Cart extends React.Component{
     }
 
     handleQuantityChange(order_item_id){
-        return e => axios.put('/api/cart.json',{
+        return e =>{
+            axios.put('/api/cart.json',{
             type: "UPDATE_QUANTITY",
             order_item_id,
-            quantity: e.target.value
+            quantity: e.target.dataset.value
         }).then(
             result=> this.setState(Object.assign({},this.state,
                  {items: result.data}))
         );
+    }
     }
 
     handleDelete(order_item_id){    
@@ -40,8 +42,8 @@ export default class Cart extends React.Component{
 
     render(){
         const content = this.state.loading ?
-            <h3>Loading...</h3> :
-            <ul>
+            "" :
+            <ul className="cart-order-item-list">
             {
                 this.state.items.map(item=>
                     <li key={`cartItem${item.id}`}>

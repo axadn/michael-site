@@ -239,10 +239,10 @@ var Cart = function (_React$Component) {
             var _this3 = this;
 
             return function (e) {
-                return _axios2.default.put('/api/cart.json', {
+                _axios2.default.put('/api/cart.json', {
                     type: "UPDATE_QUANTITY",
                     order_item_id: order_item_id,
-                    quantity: e.target.value
+                    quantity: e.target.dataset.value
                 }).then(function (result) {
                     return _this3.setState(Object.assign({}, _this3.state, { items: result.data }));
                 });
@@ -267,13 +267,9 @@ var Cart = function (_React$Component) {
         value: function render() {
             var _this5 = this;
 
-            var content = this.state.loading ? _react2.default.createElement(
-                "h3",
-                null,
-                "Loading..."
-            ) : _react2.default.createElement(
+            var content = this.state.loading ? "" : _react2.default.createElement(
                 "ul",
-                null,
+                { className: "cart-order-item-list" },
                 this.state.items.map(function (item) {
                     return _react2.default.createElement(
                         "li",
@@ -318,6 +314,10 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _quantity_selector = __webpack_require__(/*! ../shared/quantity_selector */ "./frontend/components/shared/quantity_selector.js");
+
+var _quantity_selector2 = _interopRequireDefault(_quantity_selector);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (props) {
@@ -335,13 +335,14 @@ exports.default = function (props) {
             "$",
             props.item.unit_price
         ),
-        "X",
-        _react2.default.createElement("input", { type: "number", step: "1", min: "0",
-            value: props.item.quantity,
-            onChange: props.handleQuantityChange }),
+        "x",
+        _react2.default.createElement(_quantity_selector2.default, { max: 12,
+            quantity: props.item.quantity,
+            handleChange: props.handleQuantityChange }),
         _react2.default.createElement(
             "div",
-            { className: "order-item-total" },
+            { className: "price" },
+            "$",
             props.item.quantity * props.item.unit_price
         ),
         _react2.default.createElement(
@@ -539,7 +540,8 @@ exports.default = function (props) {
         ),
         _react2.default.createElement(
             "div",
-            { className: "product-price" },
+            { className: "price" },
+            "$",
             props.product.unit_price
         )
     );
@@ -568,6 +570,10 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+var _quantity_selector = __webpack_require__(/*! ../shared/quantity_selector */ "./frontend/components/shared/quantity_selector.js");
+
+var _quantity_selector2 = _interopRequireDefault(_quantity_selector);
 
 var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
@@ -606,7 +612,7 @@ var ProductShow = function (_React$Component) {
     }, {
         key: "handleQuantityChange",
         value: function handleQuantityChange(e) {
-            var quantity = e.target.value;
+            var quantity = e.target.dataset.value;
             this.setState(Object.assign({}, this.state, { quantity: quantity }));
         }
     }, {
@@ -652,21 +658,16 @@ var ProductShow = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         "div",
+                        { className: "price" },
+                        "$",
+                        this.state.product.unit_price
+                    ),
+                    _react2.default.createElement(
+                        "div",
                         { className: "product-show-quantity-selection" },
-                        _react2.default.createElement(
-                            "div",
-                            { className: "product-show-unit-price" },
-                            "$",
-                            this.state.product.unit_price
-                        ),
-                        "x",
-                        _react2.default.createElement("input", { type: "number", min: "1", value: this.state.quantity, increment: "1", onChange: this.handleQuantityChange }),
-                        _react2.default.createElement(
-                            "div",
-                            { className: "product-show-total" },
-                            "$",
-                            this.state.quantity * this.state.product.unit_price
-                        ),
+                        _react2.default.createElement(_quantity_selector2.default, { max: 12,
+                            quantity: this.state.quantity,
+                            handleChange: this.handleQuantityChange }),
                         _react2.default.createElement(
                             "button",
                             { onClick: this.handleAddToCart },
@@ -952,6 +953,116 @@ var SearchBar = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = SearchBar;
+
+/***/ }),
+
+/***/ "./frontend/components/shared/quantity_selector.js":
+/*!*********************************************************!*\
+  !*** ./frontend/components/shared/quantity_selector.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var QuantitySelector = function (_React$Component) {
+    _inherits(QuantitySelector, _React$Component);
+
+    function QuantitySelector(props) {
+        _classCallCheck(this, QuantitySelector);
+
+        var _this = _possibleConstructorReturn(this, (QuantitySelector.__proto__ || Object.getPrototypeOf(QuantitySelector)).call(this, props));
+
+        _this.state = { active: false };
+        _this.handleClick = _this.handleClick.bind(_this);
+        _this.hide = _this.hide.bind(_this);
+        return _this;
+    }
+
+    _createClass(QuantitySelector, [{
+        key: "handleClick",
+        value: function handleClick(e) {
+            var _this2 = this;
+
+            this.activateEvent = e.nativeEvent;
+            this.setState(function (state) {
+                if (!state.active) {
+                    window.addEventListener("click", _this2.hide);
+                    return { active: true };
+                }
+            });
+        }
+    }, {
+        key: "hide",
+        value: function hide(exitEvent) {
+            if (exitEvent != this.activateEvent) {
+                this.setState({ active: false });
+                window.removeEventListener("click", this.hide);
+            }
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var list = "";
+            if (this.state.active) {
+                var listItems = [];
+                for (var i = 1; i <= this.props.max; ++i) {
+                    listItems.push(_react2.default.createElement(
+                        "div",
+                        { key: "quantity-selector-item" + i, "data-value": i },
+                        i
+                    ));
+                }
+                list = _react2.default.createElement(
+                    "div",
+                    { className: "quantity-selector-list",
+                        onClick: this.props.handleChange
+                    },
+                    listItems
+                );
+            }
+
+            return _react2.default.createElement(
+                "div",
+                { className: "quantity-selector", onClick: this.handleClick },
+                _react2.default.createElement(
+                    "div",
+                    { className: "quantity-selector-value" },
+                    _react2.default.createElement(
+                        "a",
+                        { className: "quantity-selector-label" },
+                        "QTY: ",
+                        this.props.quantity
+                    )
+                ),
+                list
+            );
+        }
+    }]);
+
+    return QuantitySelector;
+}(_react2.default.Component);
+
+exports.default = QuantitySelector;
 
 /***/ }),
 
