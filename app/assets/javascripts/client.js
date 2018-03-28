@@ -338,7 +338,9 @@ exports.default = function (props) {
         "x",
         _react2.default.createElement(_quantity_selector2.default, { max: 12,
             quantity: props.item.quantity,
-            handleChange: props.handleQuantityChange }),
+            handleChange: function handleChange(e) {
+                if (e.target.dataset.value != props.item.quantity) props.handleQuantityChange(e);
+            } }),
         _react2.default.createElement(
             "div",
             { className: "price" },
@@ -942,7 +944,7 @@ var SearchBar = function (_React$Component) {
                 _react2.default.createElement("input", { type: "text", placeholder: "search" }),
                 _react2.default.createElement(
                     "button",
-                    { type: "submit" },
+                    { className: "search-button", type: "submit" },
                     _react2.default.createElement("i", { className: "fa fa-search", "aria-hidden": "true" })
                 )
             );
@@ -1054,7 +1056,8 @@ var QuantitySelector = function (_React$Component) {
                         { className: "quantity-selector-label" },
                         "QTY: ",
                         this.props.quantity
-                    )
+                    ),
+                    _react2.default.createElement("i", { "class": "fa fa-caret-down", "aria-hidden": "true" })
                 ),
                 list
             );

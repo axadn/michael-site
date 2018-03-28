@@ -3,12 +3,21 @@
     width: 650px;
 }
 .cart-item{
+    align-items: center;
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+}
+.cart-item button{
+    align-self: stretch;
 }
 .cart-item h4{
     margin: 0;
     padding: 0;
     width: 300px;
+}
+.search-button,
+.search-button:hover{
+    background: none;
+    color: black;
 }

@@ -1,3 +1,16 @@
+html{
+    font-family: 'Ubuntu', sans-serif;
+}
+button{
+    background: rgb(24, 24, 24);
+    border: none;
+    color: white;
+    font-family: 'Ubuntu', sans-serif;
+}
+button:hover{
+    background: black;
+    cursor: pointer;
+}
 .quantity-selector{
     width: 100px;
     height: 100%;
@@ -8,6 +21,11 @@
     margin-left: 10px;
     border: 1px solid #BEBEBE;
     position: relative;
+}
+.quantity-selector-value{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .quantity-selector:hover{
@@ -26,10 +44,12 @@
     box-sizing: content-box;
 }
 
-.price{
-    width: 50px;
+.quantity-selector-list > div{
+    padding-left: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
-button:hover{
-    cursor: pointer;
+.price{
+    width: 50px;
 }

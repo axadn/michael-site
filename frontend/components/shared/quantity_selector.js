@@ -47,6 +47,7 @@ export default class QuantitySelector extends React.Component{
         return <div className="quantity-selector" onClick={this.handleClick}>
             <div className="quantity-selector-value">
                 <a className="quantity-selector-label">QTY: {this.props.quantity}</a>
+                <i class="fa fa-caret-down" aria-hidden="true"></i>
             </div>
             {list}
         </div>;

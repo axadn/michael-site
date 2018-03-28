@@ -6,7 +6,7 @@ export default class SearchBar extends React.Component{
     render(){
         return <form onSubmit ={this.props.handleSubmit}>
             <input type = "text" placeholder="search"/>
-            <button type="submit"><i className="fa fa-search" aria-hidden="true"></i></button>
+            <button className="search-button" type="submit"><i className="fa fa-search" aria-hidden="true"></i></button>
         </form>;
     }
 }

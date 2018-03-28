@@ -9,9 +9,13 @@ export default props => <div className="cart-item">
     x
     <QuantitySelector max={12} 
     quantity={props.item.quantity}
-    handleChange={props.handleQuantityChange}/>
+    handleChange={e=>{
+         if(e.target.dataset.value != props.item.quantity)
+            props.handleQuantityChange(e)
+        }}/>
     <div className ="price">
         ${props.item.quantity * props.item.unit_price}
     </div>
     <button onClick={props.handleDelete}>remove</button>
 </div>;
+
