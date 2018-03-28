@@ -1,2 +1,5 @@
 <%= javascript_include_tag 'client' %>
 <div id='root'/>
+<% content_for :head do
+    stylesheet_link_tag 'application'
+end %>

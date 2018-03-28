@@ -1,5 +1,4 @@
 import React from "react";
-import ProductsIndex from "./products_index";
 import queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
@@ -11,6 +10,7 @@ class Products extends React.Component{
         this.categories.forEach(category=>{
             this.state.categories[category] = false;
         });
+        this.receiveResults = this.receiveResults.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
     }
     handleCategoryChange(e){
@@ -31,10 +31,13 @@ class Products extends React.Component{
         axios.get(`/api/products.json?${queryString}`)
         .then(
             response=>{ 
-                this.setState(Object.assign({}, this.state,
-                 {results: response.data, loading: false}))
+                this.receiveResults(response.data)
             }
         );
+    }
+    receiveResults(results){
+        this.setState(Object.assign({}, this.state,
+            {results, loading: false}));
     }
     render(){
         const checkBoxes = this.categories.map(category=>{
@@ -54,7 +57,7 @@ class Products extends React.Component{
                     {checkBoxes}
                 </ul>
             </div>
-             <ProductsIndex loading={this.state.loading} products={this.state.results}/>
+            {React.cloneElement(this.props.children, { loading: this.state.loading, products: this.state.results })}
         </div>
     }
 }
