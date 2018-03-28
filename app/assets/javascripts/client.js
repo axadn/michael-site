@@ -267,40 +267,47 @@ var Cart = function (_React$Component) {
         value: function render() {
             var _this5 = this;
 
-            var content = this.state.loading ? "" : _react2.default.createElement(
-                "table",
-                { className: "cart-table" },
-                _react2.default.createElement(
-                    "tr",
-                    null,
-                    _react2.default.createElement(
-                        "th",
-                        null,
-                        "ITEM"
-                    ),
-                    _react2.default.createElement(
-                        "th",
-                        null,
-                        "EACH"
-                    ),
-                    _react2.default.createElement("th", null),
-                    _react2.default.createElement("th", null),
-                    _react2.default.createElement(
-                        "th",
-                        null,
-                        "TOTAL"
-                    ),
-                    _react2.default.createElement("th", null),
-                    _react2.default.createElement("th", null)
-                ),
-                this.state.items.map(function (item) {
-                    return _react2.default.createElement(_order_item2.default, { item: item,
-                        key: "cartItem" + item.id,
-                        handleQuantityChange: _this5.handleQuantityChange(item.id),
-                        handleDelete: _this5.handleDelete(item.id)
-                    });
-                })
-            );
+            var content = "";
+            if (!this.state.loading) {
+                if (this.state.items.length > 0) {
+                    content = _react2.default.createElement(
+                        "table",
+                        { className: "cart-table" },
+                        _react2.default.createElement(
+                            "tr",
+                            null,
+                            _react2.default.createElement(
+                                "th",
+                                null,
+                                "ITEM"
+                            ),
+                            _react2.default.createElement(
+                                "th",
+                                null,
+                                "EACH"
+                            ),
+                            _react2.default.createElement("th", null),
+                            _react2.default.createElement("th", null),
+                            _react2.default.createElement(
+                                "th",
+                                null,
+                                "TOTAL"
+                            ),
+                            _react2.default.createElement("th", null),
+                            _react2.default.createElement("th", null)
+                        ),
+                        this.state.items.map(function (item) {
+                            return _react2.default.createElement(_order_item2.default, { item: item,
+                                key: "cartItem" + item.id,
+                                handleQuantityChange: _this5.handleQuantityChange(item.id),
+                                handleDelete: _this5.handleDelete(item.id)
+                            });
+                        })
+                    );
+                } else {
+                    content = "Cart is empty";
+                }
+            }
             return _react2.default.createElement(
                 "div",
                 { className: "cart" },

@@ -41,28 +41,34 @@ export default class Cart extends React.Component{
     }
 
     render(){
-        const content = this.state.loading ?
-            "" :
-            <table className="cart-table">
-                <tr>
-                    <th>ITEM</th>
-                    <th>EACH</th>
-                    <th></th>
-                    <th></th>
-                    <th>TOTAL</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            {
-                this.state.items.map(item=>
-                        <CartItem item ={item} 
-                        key={`cartItem${item.id}`}
-                        handleQuantityChange={this.handleQuantityChange(item.id)}
-                        handleDelete={this.handleDelete(item.id)}
-                        />
-                )
+        let content = "";
+        if(!this.state.loading){
+            if(this.state.items.length > 0){
+                content = <table className="cart-table">
+                    <tr>
+                        <th>ITEM</th>
+                        <th>EACH</th>
+                        <th></th>
+                        <th></th>
+                        <th>TOTAL</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    {
+                        this.state.items.map(item=>
+                                <CartItem item ={item} 
+                                key={`cartItem${item.id}`}
+                                handleQuantityChange={this.handleQuantityChange(item.id)}
+                                handleDelete={this.handleDelete(item.id)}
+                                />
+                        )
+                    }
+                </table>;
             }
-            </table>;
+            else{
+                content = "Cart is empty"
+            }
+        }
         return <div className ="cart">
             <h2> Your Cart</h2>
             {content}
