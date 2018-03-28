@@ -1,3 +1,5 @@
+@import 'colors';
+
 .cart-order-item-list{
     list-style: none;
     width: 650px;
@@ -7,6 +9,8 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    border-bottom: $outline-style;
+    padding-bottom: 20px;
 }
 .cart-item button{
     align-self: stretch;

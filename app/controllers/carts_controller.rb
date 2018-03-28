@@ -6,7 +6,7 @@ class CartsController < ApplicationController
         if !@cart
             @cart = create_session(nil, Order.create(status: "cart")).cart
         end
-        @order_items = OrderItem.includes(:product).order("products.title ASC")
+        @order_items = OrderItem.includes(:product).order("products.title ASC, order_items.id ASC")
     end
 
     def fetch_order_item
