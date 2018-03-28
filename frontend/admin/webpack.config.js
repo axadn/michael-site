@@ -1,9 +1,9 @@
 const path = require('path');
 module.exports = {
   context: __dirname,
-  entry: './frontend/client.js',
+  entry: './client.js',
   output: {
-    path: path.resolve(__dirname, 'app', 'assets', 'javascripts'),
+    path: path.resolve('../../', 'app', 'assets', 'javascripts'),
     filename: 'client.js'
   },
   module: {

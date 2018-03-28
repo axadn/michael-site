@@ -49,7 +49,6 @@ export default class Cart extends React.Component{
                         <th>ITEM</th>
                         <th>EACH</th>
                         <th></th>
-                        <th></th>
                         <th>TOTAL</th>
                         <th></th>
                         <th></th>

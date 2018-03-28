@@ -30,5 +30,5 @@ class ApplicationController < ActionController::Base
     sessionRecord.destroy
     session[:session_token] = nil
   end
-
+  
 end

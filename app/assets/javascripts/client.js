@@ -66,15 +66,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./frontend/client.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./client.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./frontend/client.js":
-/*!****************************!*\
-  !*** ./frontend/client.js ***!
-  \****************************/
+/***/ "./client.js":
+/*!*******************!*\
+  !*** ./client.js ***!
+  \*******************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -89,11 +89,11 @@ var _reactDom = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/i
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _store = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
+var _store = __webpack_require__(/*! ./store/store */ "./store/store.js");
 
 var _store2 = _interopRequireDefault(_store);
 
-var _root = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
+var _root = __webpack_require__(/*! ./components/root */ "./components/root.jsx");
 
 var _root2 = _interopRequireDefault(_root);
 
@@ -107,10 +107,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /***/ }),
 
-/***/ "./frontend/components/app.jsx":
-/*!*************************************!*\
-  !*** ./frontend/components/app.jsx ***!
-  \*************************************/
+/***/ "./components/app.jsx":
+/*!****************************!*\
+  !*** ./components/app.jsx ***!
+  \****************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -127,23 +127,23 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
-var _home = __webpack_require__(/*! ./home/home */ "./frontend/components/home/home.jsx");
+var _home = __webpack_require__(/*! ./home/home */ "./components/home/home.jsx");
 
 var _home2 = _interopRequireDefault(_home);
 
-var _products = __webpack_require__(/*! ./products/products */ "./frontend/components/products/products.jsx");
+var _products = __webpack_require__(/*! ./products/products */ "./components/products/products.jsx");
 
 var _products2 = _interopRequireDefault(_products);
 
-var _product_show = __webpack_require__(/*! ./products/product_show */ "./frontend/components/products/product_show.jsx");
+var _product_show = __webpack_require__(/*! ./products/product_show */ "./components/products/product_show.jsx");
 
 var _product_show2 = _interopRequireDefault(_product_show);
 
-var _nav_bar = __webpack_require__(/*! ./nav_bar/nav_bar */ "./frontend/components/nav_bar/nav_bar.jsx");
+var _nav_bar = __webpack_require__(/*! ./nav_bar/nav_bar */ "./components/nav_bar/nav_bar.jsx");
 
 var _nav_bar2 = _interopRequireDefault(_nav_bar);
 
-var _cart = __webpack_require__(/*! ./cart/cart */ "./frontend/components/cart/cart.js");
+var _cart = __webpack_require__(/*! ./cart/cart */ "./components/cart/cart.js");
 
 var _cart2 = _interopRequireDefault(_cart);
 
@@ -171,10 +171,10 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ "./frontend/components/cart/cart.js":
-/*!******************************************!*\
-  !*** ./frontend/components/cart/cart.js ***!
-  \******************************************/
+/***/ "./components/cart/cart.js":
+/*!*********************************!*\
+  !*** ./components/cart/cart.js ***!
+  \*********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -195,7 +195,7 @@ var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _order_item = __webpack_require__(/*! ./order_item */ "./frontend/components/cart/order_item.jsx");
+var _order_item = __webpack_require__(/*! ./order_item */ "./components/cart/order_item.jsx");
 
 var _order_item2 = _interopRequireDefault(_order_item);
 
@@ -287,7 +287,6 @@ var Cart = function (_React$Component) {
                                 "EACH"
                             ),
                             _react2.default.createElement("th", null),
-                            _react2.default.createElement("th", null),
                             _react2.default.createElement(
                                 "th",
                                 null,
@@ -328,10 +327,10 @@ exports.default = Cart;
 
 /***/ }),
 
-/***/ "./frontend/components/cart/order_item.jsx":
-/*!*************************************************!*\
-  !*** ./frontend/components/cart/order_item.jsx ***!
-  \*************************************************/
+/***/ "./components/cart/order_item.jsx":
+/*!****************************************!*\
+  !*** ./components/cart/order_item.jsx ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -346,7 +345,7 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _quantity_selector = __webpack_require__(/*! ../shared/quantity_selector */ "./frontend/components/shared/quantity_selector.js");
+var _quantity_selector = __webpack_require__(/*! ../shared/quantity_selector */ "./components/shared/quantity_selector.js");
 
 var _quantity_selector2 = _interopRequireDefault(_quantity_selector);
 
@@ -363,14 +362,9 @@ exports.default = function (props) {
         ),
         _react2.default.createElement(
             "td",
-            null,
+            { className: "price" },
             "$",
             props.item.unit_price
-        ),
-        _react2.default.createElement(
-            "td",
-            null,
-            "x"
         ),
         _react2.default.createElement(
             "td",
@@ -383,7 +377,7 @@ exports.default = function (props) {
         ),
         _react2.default.createElement(
             "td",
-            null,
+            { className: "price" },
             "$",
             props.item.quantity * props.item.unit_price
         ),
@@ -401,10 +395,10 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ "./frontend/components/home/home.jsx":
-/*!*******************************************!*\
-  !*** ./frontend/components/home/home.jsx ***!
-  \*******************************************/
+/***/ "./components/home/home.jsx":
+/*!**********************************!*\
+  !*** ./components/home/home.jsx ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -431,10 +425,10 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ "./frontend/components/nav_bar/nav_bar.jsx":
-/*!*************************************************!*\
-  !*** ./frontend/components/nav_bar/nav_bar.jsx ***!
-  \*************************************************/
+/***/ "./components/nav_bar/nav_bar.jsx":
+/*!****************************************!*\
+  !*** ./components/nav_bar/nav_bar.jsx ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -449,11 +443,11 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _session_menu = __webpack_require__(/*! ./session_menu/session_menu */ "./frontend/components/nav_bar/session_menu/session_menu.jsx");
+var _session_menu = __webpack_require__(/*! ./session_menu/session_menu */ "./components/nav_bar/session_menu/session_menu.jsx");
 
 var _session_menu2 = _interopRequireDefault(_session_menu);
 
-var _search_bar = __webpack_require__(/*! ../search/search_bar */ "./frontend/components/search/search_bar.jsx");
+var _search_bar = __webpack_require__(/*! ../search/search_bar */ "./components/search/search_bar.jsx");
 
 var _search_bar2 = _interopRequireDefault(_search_bar);
 
@@ -494,10 +488,10 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ "./frontend/components/nav_bar/session_menu/session_menu.jsx":
-/*!*******************************************************************!*\
-  !*** ./frontend/components/nav_bar/session_menu/session_menu.jsx ***!
-  \*******************************************************************/
+/***/ "./components/nav_bar/session_menu/session_menu.jsx":
+/*!**********************************************************!*\
+  !*** ./components/nav_bar/session_menu/session_menu.jsx ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -549,10 +543,10 @@ exports.default = SessionMenu;
 
 /***/ }),
 
-/***/ "./frontend/components/products/product_item.jsx":
-/*!*******************************************************!*\
-  !*** ./frontend/components/products/product_item.jsx ***!
-  \*******************************************************/
+/***/ "./components/products/product_item.jsx":
+/*!**********************************************!*\
+  !*** ./components/products/product_item.jsx ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -595,10 +589,10 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ "./frontend/components/products/product_show.jsx":
-/*!*******************************************************!*\
-  !*** ./frontend/components/products/product_show.jsx ***!
-  \*******************************************************/
+/***/ "./components/products/product_show.jsx":
+/*!**********************************************!*\
+  !*** ./components/products/product_show.jsx ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -617,7 +611,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
-var _quantity_selector = __webpack_require__(/*! ../shared/quantity_selector */ "./frontend/components/shared/quantity_selector.js");
+var _quantity_selector = __webpack_require__(/*! ../shared/quantity_selector */ "./components/shared/quantity_selector.js");
 
 var _quantity_selector2 = _interopRequireDefault(_quantity_selector);
 
@@ -738,10 +732,10 @@ exports.default = (0, _reactRouterDom.withRouter)(ProductShow);
 
 /***/ }),
 
-/***/ "./frontend/components/products/products.jsx":
-/*!***************************************************!*\
-  !*** ./frontend/components/products/products.jsx ***!
-  \***************************************************/
+/***/ "./components/products/products.jsx":
+/*!******************************************!*\
+  !*** ./components/products/products.jsx ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -758,7 +752,7 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _products_index = __webpack_require__(/*! ./products_index */ "./frontend/components/products/products_index.jsx");
+var _products_index = __webpack_require__(/*! ./products_index */ "./components/products/products_index.jsx");
 
 var _products_index2 = _interopRequireDefault(_products_index);
 
@@ -870,10 +864,10 @@ exports.default = (0, _reactRouterDom.withRouter)(Products);
 
 /***/ }),
 
-/***/ "./frontend/components/products/products_index.jsx":
-/*!*********************************************************!*\
-  !*** ./frontend/components/products/products_index.jsx ***!
-  \*********************************************************/
+/***/ "./components/products/products_index.jsx":
+/*!************************************************!*\
+  !*** ./components/products/products_index.jsx ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -888,7 +882,7 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _product_item = __webpack_require__(/*! ./product_item */ "./frontend/components/products/product_item.jsx");
+var _product_item = __webpack_require__(/*! ./product_item */ "./components/products/product_item.jsx");
 
 var _product_item2 = _interopRequireDefault(_product_item);
 
@@ -906,10 +900,10 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ "./frontend/components/root.jsx":
-/*!**************************************!*\
-  !*** ./frontend/components/root.jsx ***!
-  \**************************************/
+/***/ "./components/root.jsx":
+/*!*****************************!*\
+  !*** ./components/root.jsx ***!
+  \*****************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -920,7 +914,7 @@ Object.defineProperty(exports, "__esModule", {
                             value: true
 });
 
-var _app = __webpack_require__(/*! ./app */ "./frontend/components/app.jsx");
+var _app = __webpack_require__(/*! ./app */ "./components/app.jsx");
 
 var _app2 = _interopRequireDefault(_app);
 
@@ -942,10 +936,10 @@ exports.default = function (props) {
 
 /***/ }),
 
-/***/ "./frontend/components/search/search_bar.jsx":
-/*!***************************************************!*\
-  !*** ./frontend/components/search/search_bar.jsx ***!
-  \***************************************************/
+/***/ "./components/search/search_bar.jsx":
+/*!******************************************!*\
+  !*** ./components/search/search_bar.jsx ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1002,10 +996,10 @@ exports.default = SearchBar;
 
 /***/ }),
 
-/***/ "./frontend/components/shared/quantity_selector.js":
-/*!*********************************************************!*\
-  !*** ./frontend/components/shared/quantity_selector.js ***!
-  \*********************************************************/
+/***/ "./components/shared/quantity_selector.js":
+/*!************************************************!*\
+  !*** ./components/shared/quantity_selector.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1112,62 +1106,6 @@ var QuantitySelector = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = QuantitySelector;
-
-/***/ }),
-
-/***/ "./frontend/reducers/root_reducer.js":
-/*!*******************************************!*\
-  !*** ./frontend/reducers/root_reducer.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function (state, action) {
-    return state;
-};
-
-/***/ }),
-
-/***/ "./frontend/store/store.js":
-/*!*********************************!*\
-  !*** ./frontend/store/store.js ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
-
-var _reduxThunk = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/lib/index.js");
-
-var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
-
-var _root_reducer = __webpack_require__(/*! ../reducers/root_reducer */ "./frontend/reducers/root_reducer.js");
-
-var _root_reducer2 = _interopRequireDefault(_root_reducer);
-
-var _reduxLogger = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
-
-var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function () {
-    return (0, _redux.createStore)(_root_reducer2.default, null, (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default));
-};
 
 /***/ }),
 
@@ -28860,6 +28798,62 @@ module.exports = function(originalModule) {
 	return module;
 };
 
+
+/***/ }),
+
+/***/ "./reducers/root_reducer.js":
+/*!**********************************!*\
+  !*** ./reducers/root_reducer.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function (state, action) {
+    return state;
+};
+
+/***/ }),
+
+/***/ "./store/store.js":
+/*!************************!*\
+  !*** ./store/store.js ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
+
+var _reduxThunk = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/lib/index.js");
+
+var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
+var _root_reducer = __webpack_require__(/*! ../reducers/root_reducer */ "./reducers/root_reducer.js");
+
+var _root_reducer2 = _interopRequireDefault(_root_reducer);
+
+var _reduxLogger = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
+
+var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function () {
+    return (0, _redux.createStore)(_root_reducer2.default, null, (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default));
+};
 
 /***/ })
 

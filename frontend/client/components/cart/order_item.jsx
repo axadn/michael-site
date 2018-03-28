@@ -3,10 +3,9 @@ import QuantitySelector from "../shared/quantity_selector";
 
 export default props => <tr>
     <td>{props.item.title}</td>
-    <td>
+    <td className="price">
         ${props.item.unit_price}
     </td>
-    <td>x</td>
     <td>
         <QuantitySelector max={12} 
         quantity={props.item.quantity}
@@ -15,7 +14,7 @@ export default props => <tr>
                 props.handleQuantityChange(e)
             }}/>
     </td>
-    <td>
+    <td className="price">
         ${props.item.quantity * props.item.unit_price}
     </td>
     <td>

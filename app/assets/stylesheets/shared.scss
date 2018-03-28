@@ -15,6 +15,8 @@ button:hover{
 .quantity-selector{
     width: 100px;
     height: 100%;
+    display: flex;
+    align-items: center;
     box-sizing: border-box;
     padding:10px;
     margin: 0;
@@ -51,5 +53,5 @@ button:hover{
 }
 
 .price{
-    width: 50px;
+    width: 75px;
 }

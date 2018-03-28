@@ -29,7 +29,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', require: 'bcrypt'
-
+gem 'aws-sdk-s3'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
