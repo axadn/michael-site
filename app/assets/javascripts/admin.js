@@ -402,12 +402,15 @@ var ProductItemAdminOptions = function (_React$Component) {
     }
 
     _createClass(ProductItemAdminOptions, [{
-        key: 'render',
+        key: "render",
         value: function render() {
             return _react2.default.createElement(
-                'div',
-                null,
-                '"fadfdasfds"'
+                "div",
+                { className: "product-admin-options" },
+                this.props.active ? "active" : "inactive",
+                _react2.default.createElement("input", { type: "checkbox", checked: this.props.selected ? true : false,
+                    onChange: this.props.handleCheckChange,
+                    value: this.props.id })
             );
         }
     }]);
@@ -481,6 +484,8 @@ var _product_item_admin2 = _interopRequireDefault(_product_item_admin);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -493,22 +498,76 @@ var ProductsIndex = function (_React$Component) {
     function ProductsIndex(props) {
         _classCallCheck(this, ProductsIndex);
 
-        return _possibleConstructorReturn(this, (ProductsIndex.__proto__ || Object.getPrototypeOf(ProductsIndex)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (ProductsIndex.__proto__ || Object.getPrototypeOf(ProductsIndex)).call(this, props));
+
+        _this.state = { selected: {} };
+        _this.handleCheckChange = _this.handleCheckChange.bind(_this);
+        return _this;
     }
 
     _createClass(ProductsIndex, [{
+        key: "handleCheckChange",
+        value: function handleCheckChange(e) {
+            this.setState(Object.assign({}, this.state, { selected: Object.assign({}, this.state.selected, _defineProperty({}, e.target.value, e.target.checked))
+            }));
+        }
+    }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(newProps) {
+            this.setState({ selected: {} });
+        }
+    }, {
         key: "render",
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 "div",
-                { className: "products-index" },
-                this.props.products.map(function (product) {
-                    return _react2.default.createElement(
-                        _product_item2.default,
-                        { key: "product" + product.id, product: product },
-                        _react2.default.createElement(_product_item_admin2.default, null)
-                    );
-                })
+                { className: "admin-products-index-wrapper", onClick: this.handleClick },
+                _react2.default.createElement(
+                    "div",
+                    { className: "admin-products-index-controls" },
+                    _react2.default.createElement(
+                        "button",
+                        null,
+                        "delete"
+                    ),
+                    _react2.default.createElement(
+                        "button",
+                        null,
+                        "set active"
+                    ),
+                    _react2.default.createElement(
+                        "button",
+                        null,
+                        "set inactive"
+                    ),
+                    _react2.default.createElement(
+                        "span",
+                        { className: "admin-products-selected-count" },
+                        "(",
+                        Object.keys(this.state.selected).length,
+                        " selected)"
+                    ),
+                    _react2.default.createElement(
+                        "button",
+                        null,
+                        "new"
+                    )
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: "products-index" },
+                    this.props.products.map(function (product) {
+                        return _react2.default.createElement(
+                            _product_item2.default,
+                            { key: "product" + product.id, product: product },
+                            _react2.default.createElement(_product_item_admin2.default, { active: product.active, id: product.id,
+                                selected: _this2.state.selected[product.id],
+                                handleCheckChange: _this2.handleCheckChange })
+                        );
+                    })
+                )
             );
         }
     }]);
