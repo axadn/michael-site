@@ -43,19 +43,28 @@ export default class Cart extends React.Component{
     render(){
         const content = this.state.loading ?
             "" :
-            <ul className="cart-order-item-list">
+            <table className="cart-table">
+                <tr>
+                    <th>ITEM</th>
+                    <th>EACH</th>
+                    <th></th>
+                    <th></th>
+                    <th>TOTAL</th>
+                    <th></th>
+                    <th></th>
+                </tr>
             {
                 this.state.items.map(item=>
-                    <li key={`cartItem${item.id}`}>
                         <CartItem item ={item} 
+                        key={`cartItem${item.id}`}
                         handleQuantityChange={this.handleQuantityChange(item.id)}
                         handleDelete={this.handleDelete(item.id)}
                         />
-                    </li>
                 )
             }
-            </ul>;
+            </table>;
         return <div className ="cart">
+            <h2> Your Cart</h2>
             {content}
         </div>;
     }

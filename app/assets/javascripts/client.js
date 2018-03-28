@@ -268,22 +268,47 @@ var Cart = function (_React$Component) {
             var _this5 = this;
 
             var content = this.state.loading ? "" : _react2.default.createElement(
-                "ul",
-                { className: "cart-order-item-list" },
+                "table",
+                { className: "cart-table" },
+                _react2.default.createElement(
+                    "tr",
+                    null,
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "ITEM"
+                    ),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "EACH"
+                    ),
+                    _react2.default.createElement("th", null),
+                    _react2.default.createElement("th", null),
+                    _react2.default.createElement(
+                        "th",
+                        null,
+                        "TOTAL"
+                    ),
+                    _react2.default.createElement("th", null),
+                    _react2.default.createElement("th", null)
+                ),
                 this.state.items.map(function (item) {
-                    return _react2.default.createElement(
-                        "li",
-                        { key: "cartItem" + item.id },
-                        _react2.default.createElement(_order_item2.default, { item: item,
-                            handleQuantityChange: _this5.handleQuantityChange(item.id),
-                            handleDelete: _this5.handleDelete(item.id)
-                        })
-                    );
+                    return _react2.default.createElement(_order_item2.default, { item: item,
+                        key: "cartItem" + item.id,
+                        handleQuantityChange: _this5.handleQuantityChange(item.id),
+                        handleDelete: _this5.handleDelete(item.id)
+                    });
                 })
             );
             return _react2.default.createElement(
                 "div",
                 { className: "cart" },
+                _react2.default.createElement(
+                    "h2",
+                    null,
+                    " Your Cart"
+                ),
                 content
             );
         }
@@ -322,35 +347,47 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = function (props) {
     return _react2.default.createElement(
-        "div",
-        { className: "cart-item" },
+        "tr",
+        null,
         _react2.default.createElement(
-            "h4",
+            "td",
             null,
             props.item.title
         ),
         _react2.default.createElement(
-            "div",
+            "td",
             null,
             "$",
             props.item.unit_price
         ),
-        "x",
-        _react2.default.createElement(_quantity_selector2.default, { max: 12,
-            quantity: props.item.quantity,
-            handleChange: function handleChange(e) {
-                if (e.target.dataset.value != props.item.quantity) props.handleQuantityChange(e);
-            } }),
         _react2.default.createElement(
-            "div",
-            { className: "price" },
+            "td",
+            null,
+            "x"
+        ),
+        _react2.default.createElement(
+            "td",
+            null,
+            _react2.default.createElement(_quantity_selector2.default, { max: 12,
+                quantity: props.item.quantity,
+                handleChange: function handleChange(e) {
+                    if (e.target.dataset.value != props.item.quantity) props.handleQuantityChange(e);
+                } })
+        ),
+        _react2.default.createElement(
+            "td",
+            null,
             "$",
             props.item.quantity * props.item.unit_price
         ),
         _react2.default.createElement(
-            "button",
-            { onClick: props.handleDelete },
-            "remove"
+            "td",
+            null,
+            _react2.default.createElement(
+                "button",
+                { onClick: props.handleDelete },
+                "remove"
+            )
         )
     );
 };

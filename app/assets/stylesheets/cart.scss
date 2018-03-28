@@ -1,21 +1,26 @@
 @import 'colors';
-
-.cart-order-item-list{
+.cart{
+    padding: 45px;
+}
+.cart-table{
+    padding: 0;
     list-style: none;
-    width: 650px;
+    width: 800px;
+    border-collapse: collapse;
 }
-.cart-item{
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+.cart-table th{
+    text-align: left;
+    font-size: 12px;
+}
+.cart-table tr{
+    height: 70px;
     border-bottom: $outline-style;
-    padding-bottom: 20px;
 }
-.cart-item button{
-    align-self: stretch;
+.cart-table tr button{
+    height: 40px;
+    width: 103px;
 }
-.cart-item h4{
+.cart-item > *:first-child{
     margin: 0;
     padding: 0;
     width: 300px;
