@@ -704,7 +704,9 @@ var ProductsIndex = function (_React$Component) {
 
     _createClass(ProductsIndex, [{
         key: "handleAdd",
-        value: function handleAdd() {}
+        value: function handleAdd() {
+            window.location = 'admin#/products/new';
+        }
     }, {
         key: "handleUpdate",
         value: function handleUpdate(type) {

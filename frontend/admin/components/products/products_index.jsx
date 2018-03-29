@@ -12,7 +12,7 @@ export default class ProductsIndex extends React.Component{
         this.handleAdd = this.handleAdd.bind(this);
     }
     handleAdd(){
-        
+        window.location = 'admin#/products/new'
     }
     handleUpdate(type){
         return e =>{
