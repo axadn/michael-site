@@ -16,7 +16,7 @@ export default class App extends React.Component{
                     <div className="main-content"> 
                         <Route exact path="/" component={LoginContainer}/>
                         <Route exact path="/products" render ={props=>(
-                            <ProductsContainer>
+                            <ProductsContainer queryParam={'admin=true'}>
                                 <ProductsIndex/>
                             </ProductsContainer>
                         )}/>

@@ -45,6 +45,7 @@ export default class Cart extends React.Component{
         if(!this.state.loading){
             if(this.state.items.length > 0){
                 content = <table className="cart-table">
+                    <tbody>
                     <tr>
                         <th>ITEM</th>
                         <th>EACH</th>
@@ -62,6 +63,7 @@ export default class Cart extends React.Component{
                                 />
                         )
                     }
+                </tbody>
                 </table>;
             }
             else{

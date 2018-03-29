@@ -37,7 +37,7 @@ class Products extends React.Component{
     }
     fetchProducts(currentString){
         this.setState(Object.assign({}, this.state, {loading: true}));
-        axios.get(`/api/products.json${currentString}`)
+        axios.get(`/api/products.json${currentString}${currentString.length > 0 ? "" : "?"}&${this.props.queryParam}`)
         .then(
             response=>{ 
                 this.receiveResults(response.data)

@@ -1,6 +1,7 @@
 import React from "react";
 import ProductItem from "SharedComponents/products/product_item";
 import ProductItemAdminOptions from "./product_item_admin";
+import SearchBar from "SharedComponents/search/search_bar";
 import axios from "axios";
 
 export default class ProductsIndex extends React.Component{
@@ -59,6 +60,7 @@ export default class ProductsIndex extends React.Component{
                 <button onClick={this.handleUpdate('SET_ACTIVE')}> <i className="fa fa-toggle-on" aria-hidden="true"></i> set active</button>
                 <button onClick={this.handleUpdate('SET_INACTIVE')}> <i className="fa fa-toggle-off" aria-hidden="true"></i> set inactive</button>
                 <button onClick={this.handleAdd}> <i className="fa fa-plus" aria-hidden="true"></i> new</button>
+                <SearchBar redirectUrl = "#/products"/>
             </div>
             <div className ="products-index">
             {this.props.products.map(product=>{

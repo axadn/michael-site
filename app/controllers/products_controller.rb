@@ -11,13 +11,17 @@ class ProductsController < ApplicationController
         if params["categories"] && params["categories"].length > 0
             @products = @products.where('category in (?)', params["categories"].split(' '))
         end
+
+        @products = @products.where('active = true') unless params[:admin] && is_admin?
         render :index
     end
 
     def show
         @product = Product.find_by(id: params[:id])
         if @product
-            render :show
+            if @product.active || require_admin
+                render :show
+            end
         else
             render json: {general: 'no such product'}, status: 404
         end
@@ -84,8 +88,16 @@ class ProductsController < ApplicationController
     end
 
     def require_admin
+        if  is_admin?
+            return true
+        else
+            render json: {general: 'not and admin'}, status: 403
+        end
+    end
+
+    def is_admin?
         @user = Session.find_by(token: session[:session_token]).user
-        render json: {general: 'not and admin'}, status: 403 unless @user && @user.is_admin? 
+        @user && @user.is_admin?
     end
 
     def presigned_img_fields(image_extension)

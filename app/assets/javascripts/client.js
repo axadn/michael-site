@@ -285,34 +285,38 @@ var Cart = function (_React$Component) {
                         "table",
                         { className: "cart-table" },
                         _react2.default.createElement(
-                            "tr",
+                            "tbody",
                             null,
                             _react2.default.createElement(
-                                "th",
+                                "tr",
                                 null,
-                                "ITEM"
+                                _react2.default.createElement(
+                                    "th",
+                                    null,
+                                    "ITEM"
+                                ),
+                                _react2.default.createElement(
+                                    "th",
+                                    null,
+                                    "EACH"
+                                ),
+                                _react2.default.createElement("th", null),
+                                _react2.default.createElement(
+                                    "th",
+                                    null,
+                                    "TOTAL"
+                                ),
+                                _react2.default.createElement("th", null),
+                                _react2.default.createElement("th", null)
                             ),
-                            _react2.default.createElement(
-                                "th",
-                                null,
-                                "EACH"
-                            ),
-                            _react2.default.createElement("th", null),
-                            _react2.default.createElement(
-                                "th",
-                                null,
-                                "TOTAL"
-                            ),
-                            _react2.default.createElement("th", null),
-                            _react2.default.createElement("th", null)
-                        ),
-                        this.state.items.map(function (item) {
-                            return _react2.default.createElement(_order_item2.default, { item: item,
-                                key: "cartItem" + item.id,
-                                handleQuantityChange: _this5.handleQuantityChange(item.id),
-                                handleDelete: _this5.handleDelete(item.id)
-                            });
-                        })
+                            this.state.items.map(function (item) {
+                                return _react2.default.createElement(_order_item2.default, { item: item,
+                                    key: "cartItem" + item.id,
+                                    handleQuantityChange: _this5.handleQuantityChange(item.id),
+                                    handleDelete: _this5.handleDelete(item.id)
+                                });
+                            })
+                        )
                     );
                 } else {
                     content = "Cart is empty";
@@ -458,23 +462,15 @@ var _session_menu = __webpack_require__(/*! ./session_menu/session_menu */ "./cl
 
 var _session_menu2 = _interopRequireDefault(_session_menu);
 
-var _search_bar = __webpack_require__(/*! ../search/search_bar */ "./client/components/search/search_bar.jsx");
-
-var _search_bar2 = _interopRequireDefault(_search_bar);
-
 var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
 
 var _queryString2 = _interopRequireDefault(_queryString);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _search_bar = __webpack_require__(/*! SharedComponents/search/search_bar */ "./shared/components/search/search_bar.jsx");
 
-function handleSearch(e) {
-    e.preventDefault();
-    var address = _queryString2.default.parseUrl(window.location.toString());
-    address.query.query = e.target.querySelector('input').value;
-    window.queryString = _queryString2.default;
-    window.location = address.url + "?" + _queryString2.default.stringify(address.query);
-}
+var _search_bar2 = _interopRequireDefault(_search_bar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (props) {
     return _react2.default.createElement(
@@ -499,7 +495,7 @@ exports.default = function (props) {
                     return window.location = "/#/cart";
                 }
             }),
-            _react2.default.createElement(_search_bar2.default, { handleSubmit: handleSearch })
+            _react2.default.createElement(_search_bar2.default, { redirectUrl: "/#/products" })
         )
     );
 };
@@ -806,66 +802,6 @@ exports.default = function (props) {
                                                         _react2.default.createElement(_app2.default, null)
                             );
 };
-
-/***/ }),
-
-/***/ "./client/components/search/search_bar.jsx":
-/*!*************************************************!*\
-  !*** ./client/components/search/search_bar.jsx ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var SearchBar = function (_React$Component) {
-    _inherits(SearchBar, _React$Component);
-
-    function SearchBar(props) {
-        _classCallCheck(this, SearchBar);
-
-        return _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call(this, props));
-    }
-
-    _createClass(SearchBar, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                "form",
-                { className: "search-bar", onSubmit: this.props.handleSubmit },
-                _react2.default.createElement("input", { type: "text", placeholder: "search" }),
-                _react2.default.createElement(
-                    "button",
-                    { className: "search-button", type: "submit" },
-                    _react2.default.createElement("i", { className: "fa fa-search", "aria-hidden": "true" })
-                )
-            );
-        }
-    }]);
-
-    return SearchBar;
-}(_react2.default.Component);
-
-exports.default = SearchBar;
 
 /***/ }),
 
@@ -28896,7 +28832,7 @@ var Products = function (_React$Component) {
             var _this2 = this;
 
             this.setState(Object.assign({}, this.state, { loading: true }));
-            _axios2.default.get('/api/products.json' + currentString).then(function (response) {
+            _axios2.default.get('/api/products.json' + currentString + (currentString.length > 0 ? "" : "?") + '&' + this.props.queryParam).then(function (response) {
                 _this2.receiveResults(response.data);
             });
         }
@@ -28948,6 +28884,81 @@ var Products = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = (0, _reactRouterDom.withRouter)(Products);
+
+/***/ }),
+
+/***/ "./shared/components/search/search_bar.jsx":
+/*!*************************************************!*\
+  !*** ./shared/components/search/search_bar.jsx ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
+
+var _queryString2 = _interopRequireDefault(_queryString);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SearchBar = function (_React$Component) {
+    _inherits(SearchBar, _React$Component);
+
+    function SearchBar(props) {
+        _classCallCheck(this, SearchBar);
+
+        var _this = _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call(this, props));
+
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
+    }
+
+    _createClass(SearchBar, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "form",
+                { className: "search-bar", onSubmit: this.handleSubmit },
+                _react2.default.createElement("input", { type: "text", placeholder: "search" }),
+                _react2.default.createElement(
+                    "button",
+                    { className: "search-button", type: "submit" },
+                    _react2.default.createElement("i", { className: "fa fa-search", "aria-hidden": "true" })
+                )
+            );
+        }
+    }, {
+        key: "handleSubmit",
+        value: function handleSubmit(e) {
+            e.preventDefault();
+            var address = _queryString2.default.parseUrl(window.location.toString());
+            address.query.query = e.target.querySelector('input').value;
+            window.location = this.props.redirectUrl + "?" + _queryString2.default.stringify(address.query);
+        }
+    }]);
+
+    return SearchBar;
+}(_react2.default.Component);
+
+exports.default = SearchBar;
 
 /***/ })
 

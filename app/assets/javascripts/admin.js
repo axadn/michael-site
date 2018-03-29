@@ -212,7 +212,7 @@ var App = function (_React$Component) {
                             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/products", render: function render(props) {
                                     return _react2.default.createElement(
                                         _products_container2.default,
-                                        null,
+                                        { queryParam: 'admin=true' },
                                         _react2.default.createElement(_products_index2.default, null)
                                     );
                                 } }),
@@ -295,24 +295,36 @@ var Login = function (_React$Component) {
                     "form",
                     { className: "login-form", onSubmit: this.handleLogin },
                     _react2.default.createElement(
-                        "label",
-                        null,
-                        "email",
+                        "div",
+                        { className: "form-row" },
+                        _react2.default.createElement(
+                            "label",
+                            null,
+                            "email"
+                        ),
                         _react2.default.createElement("input", { ref: function ref(email) {
                                 return _this2.email = email;
                             },
                             type: "text", name: "email" })
                     ),
                     _react2.default.createElement(
-                        "label",
-                        null,
-                        "password",
+                        "div",
+                        { className: "form-row" },
+                        _react2.default.createElement(
+                            "label",
+                            null,
+                            "password"
+                        ),
                         _react2.default.createElement("input", { ref: function ref(password) {
                                 return _this2.password = password;
                             },
                             type: "password", name: "password" })
                     ),
-                    _react2.default.createElement("input", { type: "submit" })
+                    _react2.default.createElement(
+                        "div",
+                        { className: "form-row" },
+                        _react2.default.createElement("input", { type: "submit" })
+                    )
                 )
             );
         }
@@ -743,6 +755,10 @@ var _product_item_admin = __webpack_require__(/*! ./product_item_admin */ "./adm
 
 var _product_item_admin2 = _interopRequireDefault(_product_item_admin);
 
+var _search_bar = __webpack_require__(/*! SharedComponents/search/search_bar */ "./shared/components/search/search_bar.jsx");
+
+var _search_bar2 = _interopRequireDefault(_search_bar);
+
 var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 var _axios2 = _interopRequireDefault(_axios);
@@ -856,7 +872,8 @@ var ProductsIndex = function (_React$Component) {
                         " ",
                         _react2.default.createElement("i", { className: "fa fa-plus", "aria-hidden": "true" }),
                         " new"
-                    )
+                    ),
+                    _react2.default.createElement(_search_bar2.default, { redirectUrl: "#/products" })
                 ),
                 _react2.default.createElement(
                     "div",
@@ -28805,7 +28822,7 @@ var Products = function (_React$Component) {
             var _this2 = this;
 
             this.setState(Object.assign({}, this.state, { loading: true }));
-            _axios2.default.get('/api/products.json' + currentString).then(function (response) {
+            _axios2.default.get('/api/products.json' + currentString + (currentString.length > 0 ? "" : "?") + '&' + this.props.queryParam).then(function (response) {
                 _this2.receiveResults(response.data);
             });
         }
@@ -28857,6 +28874,81 @@ var Products = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = (0, _reactRouterDom.withRouter)(Products);
+
+/***/ }),
+
+/***/ "./shared/components/search/search_bar.jsx":
+/*!*************************************************!*\
+  !*** ./shared/components/search/search_bar.jsx ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
+
+var _queryString2 = _interopRequireDefault(_queryString);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SearchBar = function (_React$Component) {
+    _inherits(SearchBar, _React$Component);
+
+    function SearchBar(props) {
+        _classCallCheck(this, SearchBar);
+
+        var _this = _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call(this, props));
+
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
+    }
+
+    _createClass(SearchBar, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "form",
+                { className: "search-bar", onSubmit: this.handleSubmit },
+                _react2.default.createElement("input", { type: "text", placeholder: "search" }),
+                _react2.default.createElement(
+                    "button",
+                    { className: "search-button", type: "submit" },
+                    _react2.default.createElement("i", { className: "fa fa-search", "aria-hidden": "true" })
+                )
+            );
+        }
+    }, {
+        key: "handleSubmit",
+        value: function handleSubmit(e) {
+            e.preventDefault();
+            var address = _queryString2.default.parseUrl(window.location.toString());
+            address.query.query = e.target.querySelector('input').value;
+            window.location = this.props.redirectUrl + "?" + _queryString2.default.stringify(address.query);
+        }
+    }]);
+
+    return SearchBar;
+}(_react2.default.Component);
+
+exports.default = SearchBar;
 
 /***/ })
 

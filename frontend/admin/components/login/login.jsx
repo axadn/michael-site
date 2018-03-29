@@ -12,15 +12,19 @@ export default class Login extends React.Component{
         return <div className="login-component">
             <div> {this.state.error}</div>
             <form className="login-form" onSubmit={this.handleLogin}>
-                <label>email
-                    <input ref={email=>this.email = email} 
-                        type="text" name="email"/>
-                </label>
-                <label>password
-                    <input ref={password=>this.password = password} 
-                        type="password" name="password"/>
-                </label>
-                <input type="submit"/>
+                <div className = "form-row">
+                    <label>email</label>
+                        <input ref={email=>this.email = email} 
+                            type="text" name="email"/>
+                </div>
+                <div className = "form-row">
+                    <label>password</label>
+                        <input ref={password=>this.password = password} 
+                            type="password" name="password"/>
+                </div>
+                <div className="form-row">
+                    <input type="submit"/>
+                </div>
             </form>
         </div>;
     }
