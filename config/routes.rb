@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/admin', to: 'admin#show'
   scope '/api', constraints: { format: 'json' } do
     resources :products
+    put '/products', to: 'products#batch_update'
     resources :addresses, except: [:index]
     resource :session, only: [:create, :destroy]
     resource :cart, only: [:show, :update, :destroy]

@@ -26,7 +26,7 @@ class ProductsController < ApplicationController
         if @product.save
             render json: presigned_img_fields(params[:image_extension])
         else
-            render json: @product.errors.messages, status: 422
+            render json: @product.errors.full_messages, status: 422
         end
     end
 
@@ -44,6 +44,27 @@ class ProductsController < ApplicationController
         end
     end
 
+    def batch_update
+        type = params[:type]
+        @products = Product.where('id in (?)', params[:ids])
+        case type
+        when 'SET_ACTIVE'
+            @products.update_all(active: true)
+            render_success
+        when 'SET_INACTIVE'
+            @products.update_all(active: false)
+            render_success
+        when 'DELETE'
+            @products.destroy_all
+            render_success
+        else
+            render json: {general: 'unrecognized action'}, status: 422
+        end
+    end
+
+    def render_success
+        render json: {sucess: true}
+    end
     def destroy
         @product = Product.find(params[:id])
         if @product 
@@ -56,7 +77,7 @@ class ProductsController < ApplicationController
 
     def product_params
         params.require(:product).permit :title, :category,
-         :unit_price, :description, :image_url
+         :unit_price, :description, :image_url, :active
     end
 
     def require_admin

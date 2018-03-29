@@ -57,7 +57,8 @@ class Products extends React.Component{
                     {checkBoxes}
                 </ul>
             </div>
-            {React.cloneElement(this.props.children, { loading: this.state.loading, products: this.state.results })}
+            {React.cloneElement(this.props.children, { loading: this.state.loading,
+                 products: this.state.results, fetch: ()=> this.fetchProducts(this.props.location.search) })}
         </div>
     }
 }

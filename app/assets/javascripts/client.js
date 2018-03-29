@@ -739,13 +739,21 @@ var ProductsIndex = function (_React$Component) {
     }
 
     _createClass(ProductsIndex, [{
+        key: "handleProductSelected",
+        value: function handleProductSelected(id) {
+            window.location = "/#/products/" + id;
+        }
+    }, {
         key: "render",
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 "div",
                 { className: "products-index" },
                 this.props.products.map(function (product) {
-                    return _react2.default.createElement(_product_item2.default, { key: "product" + product.id, product: product });
+                    return _react2.default.createElement(_product_item2.default, { key: "product" + product.id,
+                        product: product, handleSelected: _this2.handleProductSelected });
                 })
             );
         }
@@ -28762,12 +28770,12 @@ var ProductItem = function (_React$Component) {
                 { className: "product-item" },
                 _react2.default.createElement("img", { src: this.props.product.image_url,
                     onClick: function onClick() {
-                        return window.location = "/#/products/" + _this2.props.product.id;
+                        return _this2.props.handleSelected ? _this2.props.handleSelected(_this2.props.product.id) : null;
                     } }),
                 _react2.default.createElement(
                     "h3",
                     { onClick: function onClick() {
-                            return window.location = "/#/products/" + _this2.props.product.id;
+                            return _this2.props.handleSelected ? _this2.props.handleSelected(_this2.props.product.id) : null;
                         } },
                     this.props.product.title
                 ),
@@ -28911,7 +28919,10 @@ var Products = function (_React$Component) {
                         checkBoxes
                     )
                 ),
-                _react2.default.cloneElement(this.props.children, { loading: this.state.loading, products: this.state.results })
+                _react2.default.cloneElement(this.props.children, { loading: this.state.loading,
+                    products: this.state.results, fetch: function fetch() {
+                        return _this3.fetchProducts(_this3.props.location.search);
+                    } })
             );
         }
     }]);

@@ -172,6 +172,10 @@ var _products_index = __webpack_require__(/*! ./products/products_index */ "./ad
 
 var _products_index2 = _interopRequireDefault(_products_index);
 
+var _product_form = __webpack_require__(/*! ./products/product_form */ "./admin/components/products/product_form.jsx");
+
+var _product_form2 = _interopRequireDefault(_product_form);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -202,13 +206,15 @@ var App = function (_React$Component) {
                         "div",
                         { className: "app" },
                         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _login_container2.default }),
-                        _react2.default.createElement(_reactRouterDom.Route, { path: "/products", render: function render(props) {
+                        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/products", render: function render(props) {
                                 return _react2.default.createElement(
                                     _products_container2.default,
                                     null,
                                     _react2.default.createElement(_products_index2.default, null)
                                 );
-                            } })
+                            } }),
+                        _react2.default.createElement(_reactRouterDom.Route, { path: "/products/:id/edit", component: _product_form2.default }),
+                        _react2.default.createElement(_reactRouterDom.Route, { path: "/products/new", component: _product_form2.default })
                     )
                 )
             );
@@ -364,6 +370,183 @@ exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(_login2.def
 
 /***/ }),
 
+/***/ "./admin/components/products/product_form.jsx":
+/*!****************************************************!*\
+  !*** ./admin/components/products/product_form.jsx ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ProductForm = function (_React$Component) {
+    _inherits(ProductForm, _React$Component);
+
+    function ProductForm(props) {
+        _classCallCheck(this, ProductForm);
+
+        var _this = _possibleConstructorReturn(this, (ProductForm.__proto__ || Object.getPrototypeOf(ProductForm)).call(this, props));
+
+        _this.categories = ["underwear", "swimsuit"];
+        _this.state = { loading: true, errors: [] };
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
+    }
+
+    _createClass(ProductForm, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            if (this.props.match.params.id) {
+                this.setState({ loading: true });
+                this.fetch(this.props.match.params.id);
+            } else {
+                this.setState({ loading: false, product: {} });
+            }
+        }
+    }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps() {
+            if (this.props.match.params.id != newProps.match.params.id) {
+                this.setState({ loading: true });
+                this.fetch(newProps.match.params.id);
+            }
+        }
+    }, {
+        key: "fetch",
+        value: function fetch(id) {
+            var _this2 = this;
+
+            _axios2.default.get("/api/products/" + id).then(function (result) {
+                return _this2.setState(Object.assign({}, _this2.state, { loading: false, product: result.data }));
+            });
+        }
+    }, {
+        key: "handleChange",
+        value: function handleChange(key) {
+            var _this3 = this;
+
+            return function (e) {
+                var product = Object.assign({}, _this3.state.product, _defineProperty({}, key, e.target.value));
+                _this3.setState(Object.assign({}, _this3.state, { product: product }));
+            };
+        }
+    }, {
+        key: "handleSubmit",
+        value: function handleSubmit(e) {
+            var _this4 = this;
+
+            e.preventDefault();
+            _axios2.default.post('/api/products.json', { product: this.state.product }).then(function (result) {
+                window.location = '/admin#/products';
+            }).catch(function (error) {
+                _this4.setState(Object.assign({}, _this4.state, { errors: error.response.data }));
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var formTitle = this.props.match.params.id ? "Edit Product" : "New Product";
+            var content = this.state.loading ? "" : _react2.default.createElement(
+                "form",
+                { className: "product-form", onSubmit: this.handleSubmit },
+                _react2.default.createElement(
+                    "label",
+                    null,
+                    "Image",
+                    _react2.default.createElement("input", { type: "file" })
+                ),
+                _react2.default.createElement(
+                    "label",
+                    { value: this.state.product.title, onChange: this.handleChange("title") },
+                    "Title",
+                    _react2.default.createElement("input", { type: "text" })
+                ),
+                _react2.default.createElement(
+                    "label",
+                    null,
+                    "description",
+                    _react2.default.createElement("textarea", { value: this.state.product.description,
+                        onChange: this.handleChange("description") })
+                ),
+                _react2.default.createElement(
+                    "label",
+                    null,
+                    "unit price",
+                    _react2.default.createElement("input", { onChange: this.handleChange("unit_price"), type: "number", min: "0" })
+                ),
+                _react2.default.createElement(
+                    "label",
+                    null,
+                    "category",
+                    _react2.default.createElement(
+                        "select",
+                        { value: this.state.product.category, onChange: this.handleChange("category") },
+                        this.categories.map(function (category) {
+                            return _react2.default.createElement(
+                                "option",
+                                { key: category, value: category },
+                                category
+                            );
+                        })
+                    )
+                ),
+                _react2.default.createElement("input", { type: "submit" })
+            );
+            var errors = _react2.default.createElement(
+                "ul",
+                { className: "form-errors" },
+                this.state.errors.map(function (error) {
+                    return _react2.default.createElement(
+                        "li",
+                        { key: error },
+                        error
+                    );
+                })
+            );
+
+            return _react2.default.createElement(
+                "div",
+                { className: "product-form-component" },
+                errors,
+                formTitle,
+                content
+            );
+        }
+    }]);
+
+    return ProductForm;
+}(_react2.default.Component);
+
+exports.default = ProductForm;
+
+/***/ }),
+
 /***/ "./admin/components/products/product_item_admin.jsx":
 /*!**********************************************************!*\
   !*** ./admin/components/products/product_item_admin.jsx ***!
@@ -407,8 +590,16 @@ var ProductItemAdminOptions = function (_React$Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "product-admin-options" },
-                this.props.active ? "active" : "inactive",
-                _react2.default.createElement("input", { type: "checkbox", checked: this.props.selected ? true : false,
+                this.props.active ? null : _react2.default.createElement(
+                    "div",
+                    { className: "product-inactive-overlay" },
+                    _react2.default.createElement(
+                        "a",
+                        null,
+                        " inactive "
+                    )
+                ),
+                _react2.default.createElement("input", { className: "product-admin-checkbox", type: "checkbox", checked: this.props.selected ? true : false,
                     onChange: this.props.handleCheckChange,
                     value: this.props.id })
             );
@@ -482,6 +673,10 @@ var _product_item_admin = __webpack_require__(/*! ./product_item_admin */ "./adm
 
 var _product_item_admin2 = _interopRequireDefault(_product_item_admin);
 
+var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+var _axios2 = _interopRequireDefault(_axios);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -502,14 +697,41 @@ var ProductsIndex = function (_React$Component) {
 
         _this.state = { selected: {} };
         _this.handleCheckChange = _this.handleCheckChange.bind(_this);
+        _this.handleUpdate = _this.handleUpdate.bind(_this);
+        _this.handleAdd = _this.handleAdd.bind(_this);
         return _this;
     }
 
     _createClass(ProductsIndex, [{
+        key: "handleAdd",
+        value: function handleAdd() {}
+    }, {
+        key: "handleUpdate",
+        value: function handleUpdate(type) {
+            var _this2 = this;
+
+            return function (e) {
+                _axios2.default.put("/api/products.json", { type: type,
+                    ids: Object.keys(_this2.state.selected) }).then(function (result) {
+                    return _this2.props.fetch();
+                });
+            };
+        }
+    }, {
         key: "handleCheckChange",
         value: function handleCheckChange(e) {
-            this.setState(Object.assign({}, this.state, { selected: Object.assign({}, this.state.selected, _defineProperty({}, e.target.value, e.target.checked))
-            }));
+            if (e.target.checked) {
+                this.setState(Object.assign({}, this.state, { selected: Object.assign({}, this.state.selected, _defineProperty({}, e.target.value, e.target.checked))
+                }));
+            } else {
+                var selected = {};
+                Object.keys(this.state.selected).forEach(function (key) {
+                    if (key != e.target.value) {
+                        selected[key] = true;
+                    }
+                });
+                this.setState(Object.assign({}, this.state, { selected: selected }));
+            }
         }
     }, {
         key: "componentWillReceiveProps",
@@ -519,7 +741,7 @@ var ProductsIndex = function (_React$Component) {
     }, {
         key: "render",
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             return _react2.default.createElement(
                 "div",
@@ -527,21 +749,6 @@ var ProductsIndex = function (_React$Component) {
                 _react2.default.createElement(
                     "div",
                     { className: "admin-products-index-controls" },
-                    _react2.default.createElement(
-                        "button",
-                        null,
-                        "delete"
-                    ),
-                    _react2.default.createElement(
-                        "button",
-                        null,
-                        "set active"
-                    ),
-                    _react2.default.createElement(
-                        "button",
-                        null,
-                        "set inactive"
-                    ),
                     _react2.default.createElement(
                         "span",
                         { className: "admin-products-selected-count" },
@@ -551,8 +758,31 @@ var ProductsIndex = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         "button",
-                        null,
-                        "new"
+                        { onClick: this.handleUpdate('DELETE') },
+                        " ",
+                        _react2.default.createElement("i", { className: "fa fa-trash-o", "aria-hidden": "true" }),
+                        " delete"
+                    ),
+                    _react2.default.createElement(
+                        "button",
+                        { onClick: this.handleUpdate('SET_ACTIVE') },
+                        " ",
+                        _react2.default.createElement("i", { className: "fa fa-toggle-on", "aria-hidden": "true" }),
+                        " set active"
+                    ),
+                    _react2.default.createElement(
+                        "button",
+                        { onClick: this.handleUpdate('SET_INACTIVE') },
+                        " ",
+                        _react2.default.createElement("i", { className: "fa fa-toggle-off", "aria-hidden": "true" }),
+                        " set inactive"
+                    ),
+                    _react2.default.createElement(
+                        "button",
+                        { onClick: this.handleAdd },
+                        " ",
+                        _react2.default.createElement("i", { className: "fa fa-plus", "aria-hidden": "true" }),
+                        " new"
                     )
                 ),
                 _react2.default.createElement(
@@ -563,8 +793,8 @@ var ProductsIndex = function (_React$Component) {
                             _product_item2.default,
                             { key: "product" + product.id, product: product },
                             _react2.default.createElement(_product_item_admin2.default, { active: product.active, id: product.id,
-                                selected: _this2.state.selected[product.id],
-                                handleCheckChange: _this2.handleCheckChange })
+                                selected: _this3.state.selected[product.id],
+                                handleCheckChange: _this3.handleCheckChange })
                         );
                     })
                 )
@@ -28383,12 +28613,12 @@ var ProductItem = function (_React$Component) {
                 { className: "product-item" },
                 _react2.default.createElement("img", { src: this.props.product.image_url,
                     onClick: function onClick() {
-                        return window.location = "/#/products/" + _this2.props.product.id;
+                        return _this2.props.handleSelected ? _this2.props.handleSelected(_this2.props.product.id) : null;
                     } }),
                 _react2.default.createElement(
                     "h3",
                     { onClick: function onClick() {
-                            return window.location = "/#/products/" + _this2.props.product.id;
+                            return _this2.props.handleSelected ? _this2.props.handleSelected(_this2.props.product.id) : null;
                         } },
                     this.props.product.title
                 ),
@@ -28532,7 +28762,10 @@ var Products = function (_React$Component) {
                         checkBoxes
                     )
                 ),
-                _react2.default.cloneElement(this.props.children, { loading: this.state.loading, products: this.state.results })
+                _react2.default.cloneElement(this.props.children, { loading: this.state.loading,
+                    products: this.state.results, fetch: function fetch() {
+                        return _this3.fetchProducts(_this3.props.location.search);
+                    } })
             );
         }
     }]);
