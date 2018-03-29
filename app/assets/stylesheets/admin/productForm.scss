@@ -1,0 +1,16 @@
+.product-form-component{
+    display: flex;
+    flex-direction: column;
+}
+.product-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.product-form label{
+    width: 100px;
+    display: inline-block;
+}
+.product-form .form-row{
+    margin-bottom: 50px;
+}

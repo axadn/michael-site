@@ -56,16 +56,30 @@ export default class ProductForm extends React.Component{
         const content = this.state.loading ? 
             ""
         : <form className = "product-form" onSubmit={this.handleSubmit}>
-            <label>Image<input type="file"/></label>
-            <label>
-                Title<input type="text" value={this.state.product.title} onChange={this.handleChange("title")}/>
-            </label>
-            <label>description<textarea value={this.state.product.description}
-                onChange={this.handleChange("description")}></textarea></label>
-
-            <label>unit price<input value={this.state.product.unit_price} onChange={this.handleChange("unit_price")} type="number" min="0"/></label>
-            <label>category
-                <select value={this.state.product.category} onChange={this.handleChange("category")}>
+            <div className = "form-row">
+                <label htmlFor="image-input">image</label>
+                <input id="image-input" type="file"/>
+            </div>
+            <div className = "form-row">
+                <label htmlFor="title">Title</label>
+                <input type="text" value={this.state.product.title} 
+                    id="title" onChange={this.handleChange("title")}/>
+                
+            </div>
+            <div className = "form-row">
+                <label htmlFor="description">description</label>
+                <textarea value={this.state.product.description}
+                    id="description" onChange={this.handleChange("description")}></textarea>
+            </div>
+            <div className = "form-row">
+                <label htmlFor="unit-price">unit price</label>
+                <input value={this.state.product.unit_price} 
+                    id ="unit-price" onChange={this.handleChange("unit_price")} type="number" min="0"/>
+            </div>
+            <div className = "form-row">
+                <label htmlFor="category">category</label>
+                <select id="category" value={this.state.product.category} 
+                    onChange={this.handleChange("category")}>
                     {
                         this.categories.map(category=>(
                             <option key={category} value={category}>
@@ -74,8 +88,10 @@ export default class ProductForm extends React.Component{
                         ))
                     }
                 </select>
-            </label>
-            <input type="submit"/>
+            </div>
+            <div className="form-row">
+                <input type="submit"/>
+            </div>
         </form>;
         const errors = <ul className = "form-errors">
             {this.state.errors.map(error=>(
@@ -85,7 +101,7 @@ export default class ProductForm extends React.Component{
 
         return <div className= "product-form-component">
             {errors}
-            {formTitle}
+            <h2>{formTitle}</h2>
             {content}
         </div>;
     }

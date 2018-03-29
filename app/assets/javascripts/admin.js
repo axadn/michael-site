@@ -476,37 +476,60 @@ var ProductForm = function (_React$Component) {
                 "form",
                 { className: "product-form", onSubmit: this.handleSubmit },
                 _react2.default.createElement(
-                    "label",
-                    null,
-                    "Image",
-                    _react2.default.createElement("input", { type: "file" })
+                    "div",
+                    { className: "form-row" },
+                    _react2.default.createElement(
+                        "label",
+                        { htmlFor: "image-input" },
+                        "image"
+                    ),
+                    _react2.default.createElement("input", { id: "image-input", type: "file" })
                 ),
                 _react2.default.createElement(
-                    "label",
-                    null,
-                    "Title",
-                    _react2.default.createElement("input", { type: "text", value: this.state.product.title, onChange: this.handleChange("title") })
+                    "div",
+                    { className: "form-row" },
+                    _react2.default.createElement(
+                        "label",
+                        { htmlFor: "title" },
+                        "Title"
+                    ),
+                    _react2.default.createElement("input", { type: "text", value: this.state.product.title,
+                        id: "title", onChange: this.handleChange("title") })
                 ),
                 _react2.default.createElement(
-                    "label",
-                    null,
-                    "description",
+                    "div",
+                    { className: "form-row" },
+                    _react2.default.createElement(
+                        "label",
+                        { htmlFor: "description" },
+                        "description"
+                    ),
                     _react2.default.createElement("textarea", { value: this.state.product.description,
-                        onChange: this.handleChange("description") })
+                        id: "description", onChange: this.handleChange("description") })
                 ),
                 _react2.default.createElement(
-                    "label",
-                    null,
-                    "unit price",
-                    _react2.default.createElement("input", { value: this.state.product.unit_price, onChange: this.handleChange("unit_price"), type: "number", min: "0" })
+                    "div",
+                    { className: "form-row" },
+                    _react2.default.createElement(
+                        "label",
+                        { htmlFor: "unit-price" },
+                        "unit price"
+                    ),
+                    _react2.default.createElement("input", { value: this.state.product.unit_price,
+                        id: "unit-price", onChange: this.handleChange("unit_price"), type: "number", min: "0" })
                 ),
                 _react2.default.createElement(
-                    "label",
-                    null,
-                    "category",
+                    "div",
+                    { className: "form-row" },
+                    _react2.default.createElement(
+                        "label",
+                        { htmlFor: "category" },
+                        "category"
+                    ),
                     _react2.default.createElement(
                         "select",
-                        { value: this.state.product.category, onChange: this.handleChange("category") },
+                        { id: "category", value: this.state.product.category,
+                            onChange: this.handleChange("category") },
                         this.categories.map(function (category) {
                             return _react2.default.createElement(
                                 "option",
@@ -516,7 +539,11 @@ var ProductForm = function (_React$Component) {
                         })
                     )
                 ),
-                _react2.default.createElement("input", { type: "submit" })
+                _react2.default.createElement(
+                    "div",
+                    { className: "form-row" },
+                    _react2.default.createElement("input", { type: "submit" })
+                )
             );
             var errors = _react2.default.createElement(
                 "ul",
@@ -534,7 +561,11 @@ var ProductForm = function (_React$Component) {
                 "div",
                 { className: "product-form-component" },
                 errors,
-                formTitle,
+                _react2.default.createElement(
+                    "h2",
+                    null,
+                    formTitle
+                ),
                 content
             );
         }
