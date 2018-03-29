@@ -24,7 +24,7 @@ export default class ProductForm extends React.Component{
         }
     }
     fetch(id){
-        axios.get(`/api/products/${id}`)
+        axios.get(`/api/products/${id}.json`)
         .then(result => this.setState(Object.assign({}, this.state,
              {loading: false, product: result.data })));
     }
@@ -57,12 +57,13 @@ export default class ProductForm extends React.Component{
             ""
         : <form className = "product-form" onSubmit={this.handleSubmit}>
             <label>Image<input type="file"/></label>
-            <label value={this.state.product.title} onChange={this.handleChange("title")}>
-                Title<input type="text"/></label>
+            <label>
+                Title<input type="text" value={this.state.product.title} onChange={this.handleChange("title")}/>
+            </label>
             <label>description<textarea value={this.state.product.description}
                 onChange={this.handleChange("description")}></textarea></label>
 
-            <label>unit price<input onChange={this.handleChange("unit_price")} type="number" min="0"/></label>
+            <label>unit price<input value={this.state.product.unit_price} onChange={this.handleChange("unit_price")} type="number" min="0"/></label>
             <label>category
                 <select value={this.state.product.category} onChange={this.handleChange("category")}>
                     {

@@ -49,10 +49,11 @@ export default class ProductsIndex extends React.Component{
         this.setState({selected: {}});
     }
     render(){
+        const numSelected = Object.keys(this.state.selected).length;
         return<div className ="admin-products-index-wrapper" onClick={this.handleClick}>
             <div className ="admin-products-index-controls">
-                <span className="admin-products-selected-count"> 
-                   ({Object.keys(this.state.selected).length } selected)
+                <span className={`admin-products-selected-count ${numSelected > 0 ? "active": ""}`}> 
+                   ({numSelected} selected)
                 </span>
                 <button onClick={this.handleUpdate('DELETE')}> <i className="fa fa-trash-o" aria-hidden="true"></i> delete</button>
                 <button onClick={this.handleUpdate('SET_ACTIVE')}> <i className="fa fa-toggle-on" aria-hidden="true"></i> set active</button>

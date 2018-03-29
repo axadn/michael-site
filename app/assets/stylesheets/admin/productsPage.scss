@@ -28,6 +28,10 @@
 }
 .admin-products-index-controls > span{
     width: 100px;
+    color: rgb(82, 82, 82);
+}
+.admin-products-index-controls > span.active{
+    color: rgb(255, 0, 0);
 }
 .product-admin-checkbox:hover{
     cursor: pointer;

@@ -442,7 +442,7 @@ var ProductForm = function (_React$Component) {
         value: function fetch(id) {
             var _this2 = this;
 
-            _axios2.default.get("/api/products/" + id).then(function (result) {
+            _axios2.default.get("/api/products/" + id + ".json").then(function (result) {
                 return _this2.setState(Object.assign({}, _this2.state, { loading: false, product: result.data }));
             });
         }
@@ -483,9 +483,9 @@ var ProductForm = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     "label",
-                    { value: this.state.product.title, onChange: this.handleChange("title") },
+                    null,
                     "Title",
-                    _react2.default.createElement("input", { type: "text" })
+                    _react2.default.createElement("input", { type: "text", value: this.state.product.title, onChange: this.handleChange("title") })
                 ),
                 _react2.default.createElement(
                     "label",
@@ -498,7 +498,7 @@ var ProductForm = function (_React$Component) {
                     "label",
                     null,
                     "unit price",
-                    _react2.default.createElement("input", { onChange: this.handleChange("unit_price"), type: "number", min: "0" })
+                    _react2.default.createElement("input", { value: this.state.product.unit_price, onChange: this.handleChange("unit_price"), type: "number", min: "0" })
                 ),
                 _react2.default.createElement(
                     "label",
@@ -745,6 +745,7 @@ var ProductsIndex = function (_React$Component) {
         value: function render() {
             var _this3 = this;
 
+            var numSelected = Object.keys(this.state.selected).length;
             return _react2.default.createElement(
                 "div",
                 { className: "admin-products-index-wrapper", onClick: this.handleClick },
@@ -753,9 +754,9 @@ var ProductsIndex = function (_React$Component) {
                     { className: "admin-products-index-controls" },
                     _react2.default.createElement(
                         "span",
-                        { className: "admin-products-selected-count" },
+                        { className: "admin-products-selected-count " + (numSelected > 0 ? "active" : "") },
                         "(",
-                        Object.keys(this.state.selected).length,
+                        numSelected,
                         " selected)"
                     ),
                     _react2.default.createElement(
