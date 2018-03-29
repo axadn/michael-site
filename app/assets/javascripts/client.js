@@ -462,11 +462,18 @@ var _search_bar = __webpack_require__(/*! ../search/search_bar */ "./client/comp
 
 var _search_bar2 = _interopRequireDefault(_search_bar);
 
+var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
+
+var _queryString2 = _interopRequireDefault(_queryString);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function handleSearch(e) {
     e.preventDefault();
-    window.location = "/#/products/?query=" + e.target.querySelector('input').value;
+    var address = _queryString2.default.parseUrl(window.location.toString());
+    address.query.query = e.target.querySelector('input').value;
+    window.queryString = _queryString2.default;
+    window.location = address.url + "?" + _queryString2.default.stringify(address.query);
 }
 
 exports.default = function (props) {
@@ -844,7 +851,7 @@ var SearchBar = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 "form",
-                { onSubmit: this.props.handleSubmit },
+                { className: "search-bar", onSubmit: this.props.handleSubmit },
                 _react2.default.createElement("input", { type: "text", placeholder: "search" }),
                 _react2.default.createElement(
                     "button",
@@ -28860,6 +28867,9 @@ var Products = function (_React$Component) {
         value: function handleCategoryChange(e) {
             var newCategoryValues = Object.assign({}, this.state.categories, _defineProperty({}, e.target.value, e.target.checked));
             this.setState(Object.assign({}, this.state, { categories: newCategoryValues }));
+            var address = _queryString2.default.parseUrl(window.location.toString());
+            address.query.categories = this.generateCategoriesString(newCategoryValues);
+            window.location = address.url + '?' + _queryString2.default.stringify(address.query);
         }
     }, {
         key: 'componentDidMount',
@@ -28874,12 +28884,19 @@ var Products = function (_React$Component) {
             }
         }
     }, {
+        key: 'generateCategoriesString',
+        value: function generateCategoriesString(categories) {
+            return Object.keys(categories).filter(function (key) {
+                return categories[key];
+            }).join(" ");
+        }
+    }, {
         key: 'fetchProducts',
-        value: function fetchProducts(queryString) {
+        value: function fetchProducts(currentString) {
             var _this2 = this;
 
             this.setState(Object.assign({}, this.state, { loading: true }));
-            _axios2.default.get('/api/products.json?' + queryString).then(function (response) {
+            _axios2.default.get('/api/products.json' + currentString).then(function (response) {
                 _this2.receiveResults(response.data);
             });
         }

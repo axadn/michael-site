@@ -4,8 +4,11 @@
     flex-direction: row;
 }
 .product-search-options{
-    width: 250px;
+    width: 135px;
     display: inline-block;
+    padding: 20px;
+    margin-right: 20px;
+    background-color: $light-overlay-style;
 }
 .product-search-options ul{
     list-style: none;

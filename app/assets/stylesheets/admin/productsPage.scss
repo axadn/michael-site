@@ -1,10 +1,11 @@
+@import '../colors';
 .product-inactive-overlay{
     position: absolute;
     width: 100%;
     height: 100%;
     left: 0;
     top: 0;
-    background-color: rgba($color: #000000, $alpha: 0.5);
+    background-color: $overlay-style;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,9 +16,17 @@
     top: 20px;
     right: 20px;
 }
+.product-admin-edit-button{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 48px;
+    height: 25px;
+}
 .admin-products-index-controls{
     height: 35px;
     width: 580px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;

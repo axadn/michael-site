@@ -1,16 +1,41 @@
+@import "../colors";
 .product-form-component{
     display: flex;
     flex-direction: column;
+    width: fit-content;
+}
+.product-form-component h2{
+    border-bottom: $outline-style;
+    padding-bottom: 15px;
 }
 .product-form{
     display: flex;
     flex-direction: column;
+    width: fit-content;
 }
 
 .product-form label{
     width: 100px;
     display: inline-block;
 }
+.product-form textarea{
+    width: 350px;
+    height: 100px;
+    resize: none;
+}
 .product-form .form-row{
     margin-bottom: 50px;
+    display: flex;
+    flex-direction: row;
+}
+.product-form .form-row > input,
+.product-form .form-row > textarea
+{
+    flex-grow: 1;
+}
+.product-form .form-row:last-child button{
+    margin-left: 10px;
+}
+.product-form .form-row:last-child button:first-child{
+    margin-left: 0px;
 }

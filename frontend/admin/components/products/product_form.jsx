@@ -4,7 +4,7 @@ export default class ProductForm extends React.Component{
     constructor(props){
         super(props);
         this.categories = ["underwear", "swimsuit"]
-        this.state ={loading: true, errors: []};
+        this.state ={loading: true, errors: [], product: this.emptyProduct()};
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -14,8 +14,16 @@ export default class ProductForm extends React.Component{
             this.fetch(this.props.match.params.id);
         }
         else{
-            this.setState({loading: false, product: {}});
+            this.setState({loading: false, product: this.emptyProduct()});
         }
+    }
+    emptyProduct(){
+        return{
+            title: "",
+            description: "",
+            unit_price: "",
+            category: "underwear"
+        };
     }
     componentWillReceiveProps(){
         if(this.props.match.params.id != newProps.match.params.id){
@@ -46,6 +54,9 @@ export default class ProductForm extends React.Component{
         .catch(error=>{
             this.setState(Object.assign({}, this.state, {errors: error.response.data}))
         });
+    }
+    handleCancel(){
+        window.history.back();
     }
     render(){
         const formTitle = this.props.match.params.id ?
@@ -90,7 +101,8 @@ export default class ProductForm extends React.Component{
                 </select>
             </div>
             <div className="form-row">
-                <input type="submit"/>
+                <button onClick={this.handleSubmit}>submit</button>
+                <button onClick={this.handleCancel}>cancel</button>
             </div>
         </form>;
         const errors = <ul className = "form-errors">

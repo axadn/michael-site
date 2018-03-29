@@ -2,11 +2,14 @@ class ProductsController < ApplicationController
     before_action :require_admin, except: [:index, :show]
     helper_method :product_image_url
     def index
-        if params["?query"]
-            categories = params[:categories].split(',') if params[:categories]
-            @products = Product.search_by_title(params["?query"])
+        if params["query"] && params["query"].length > 0
+            @products = Product.search_by_title(params["query"])
         else
             @products = Product.order('title ASC').all
+        end
+
+        if params["categories"] && params["categories"].length > 0
+            @products = @products.where('category in (?)', params["categories"].split(' '))
         end
         render :index
     end

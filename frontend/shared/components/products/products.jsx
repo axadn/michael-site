@@ -17,18 +17,27 @@ class Products extends React.Component{
         const newCategoryValues = Object.assign({},
              this.state.categories, {[e.target.value]: e.target.checked});
         this.setState(Object.assign({}, this.state, {categories: newCategoryValues}));
+        const address = queryString.parseUrl(window.location.toString());
+        address.query.categories = this.generateCategoriesString(newCategoryValues);
+        window.location = `${address.url}?${queryString.stringify(address.query)}`;
     }
     componentDidMount(){
         this.fetchProducts(this.props.location.search);
     }
+
     componentWillReceiveProps(newProps){
         if(this.props.location.search != newProps.location.search){
             this.fetchProducts(newProps.location.search);
         }
     }
-    fetchProducts(queryString){
+    generateCategoriesString(categories){
+        return Object.keys(categories)
+        .filter(key=>categories[key])
+        .join(" ");
+    }
+    fetchProducts(currentString){
         this.setState(Object.assign({}, this.state, {loading: true}));
-        axios.get(`/api/products.json?${queryString}`)
+        axios.get(`/api/products.json${currentString}`)
         .then(
             response=>{ 
                 this.receiveResults(response.data)

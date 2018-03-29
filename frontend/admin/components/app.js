@@ -13,14 +13,16 @@ export default class App extends React.Component{
         return <Provider store={this.props.store}>
             <HashRouter>
                 <div className="app">
-                    <Route exact path="/" component={LoginContainer}/>
-                    <Route exact path="/products" render ={props=>(
-                        <ProductsContainer>
-                            <ProductsIndex/>
-                        </ProductsContainer>
-                    )}/>
-                    <Route path="/products/:id/edit" component={ProductForm}/>
-                    <Route path="/products/new" component={ProductForm}/>
+                    <div className="main-content"> 
+                        <Route exact path="/" component={LoginContainer}/>
+                        <Route exact path="/products" render ={props=>(
+                            <ProductsContainer>
+                                <ProductsIndex/>
+                            </ProductsContainer>
+                        )}/>
+                        <Route path="/products/:id/edit" component={ProductForm}/>
+                        <Route path="/products/new" component={ProductForm}/>
+                    </div>
                 </div>
             </HashRouter>
         </Provider>;

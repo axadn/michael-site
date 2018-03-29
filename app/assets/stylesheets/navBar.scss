@@ -21,7 +21,10 @@
  {
     cursor: pointer;
  }
-
+.search-button{
+    width: fit-content;
+    height: fit-content;
+}
  .nav-bar-right-side{
      display: flex;
      justify-content: space-around;
