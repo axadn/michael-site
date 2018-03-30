@@ -52,8 +52,8 @@ class ProductsController < ApplicationController
     end
 
     def img_presigned_post
-        s3_bucket.object.object(s3_image_path @product)
-                        .presigned_post(s3_image_path @product)
+        s3_bucket.object.object(s3_image_path @product.id)
+                        .presigned_post(s3_image_path @product.id)
                         .fields
     end
 
@@ -68,6 +68,15 @@ class ProductsController < ApplicationController
             @products.update_all(active: false)
             render_success
         when 'DELETE'
+            Aws.use_bundled_cert!
+            delete_info = s3_bucket.delete_objects(
+                {
+                    delete: { 
+                        objects: params[:ids].map {|id| {key: s3_image_path(id)}},
+                        quiet: true
+                    }
+                }
+            )
             @products.destroy_all
             render_success
         else
@@ -107,13 +116,13 @@ class ProductsController < ApplicationController
     end
 
     def presigned_img_fields
-        obj = s3_bucket.object s3_image_path(@product)
-        post = obj.presigned_post(key: s3_image_path(@product))
+        obj = s3_bucket.object s3_image_path(@product.id)
+        post = obj.presigned_post(key: s3_image_path(@product.id))
         {fields: post.fields, url: post.url}
     end
 
-    def s3_image_path(product)
-        "products/#{product.id}/images/0"
+    def s3_image_path(id)
+        "products/#{id}/images/0"
     end
 
     def s3_bucket
@@ -128,6 +137,6 @@ class ProductsController < ApplicationController
       end
 
     def product_image_url(product)
-        s3_bucket.object(s3_image_path(product)).presigned_url :get
+        s3_bucket.object(s3_image_path(product.id)).presigned_url :get
     end
 end
