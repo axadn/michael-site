@@ -424,6 +424,8 @@ var UpdatableImage = function (_React$Component) {
 
     _this.state = { src: false };
     _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleRevert = _this.handleRevert.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
 
@@ -432,10 +434,25 @@ var UpdatableImage = function (_React$Component) {
     value: function handleChange(e) {
       var file = e.target.files[0];
       this.setState({ src: URL.createObjectURL(file) });
-      URL.revokeObjectURL(this.props.src);
       if (this.props.handleFile) {
         this.props.handleFile(file);
       }
+    }
+  }, {
+    key: "handleRevert",
+    value: function handleRevert(e) {
+      e.preventDefault();
+      this.setState({ src: null });
+      if (this.props.handleFile) {
+        this.props.handleFile(null);
+      }
+      this.inputButton.value = "";
+    }
+  }, {
+    key: "handleClick",
+    value: function handleClick(e) {
+      e.preventDefault();
+      this.inputButton.click();
     }
   }, {
     key: "render",
@@ -443,25 +460,28 @@ var UpdatableImage = function (_React$Component) {
       var _this2 = this;
 
       var button = void 0;
-      if (this.props.editable) {
-        button = _react2.default.createElement(
-          "button",
-          {
-            onClick: function onClick() {
-              return document.getElementById(_this2.props.inputId).click();
-            } },
-          "Update Image"
-        );
-      }
       var src = this.state.src || this.props.src;
       return _react2.default.createElement(
         "div",
         { className: "image-input-container" },
         _react2.default.createElement("img", { className: "product-image", src: src }),
         _react2.default.createElement("input", { type: "file", className: "image-input",
-          id: this.props.inputId,
+          ref: function ref(inputButton) {
+            return _this2.inputButton = inputButton;
+          },
           onChange: this.handleChange }),
-        button
+        _react2.default.createElement(
+          "button",
+          {
+            onClick: this.handleClick },
+          "Update Image"
+        ),
+        this.state.src ? _react2.default.createElement(
+          "button",
+          {
+            onClick: this.handleRevert },
+          "Revert"
+        ) : ""
       );
     }
   }]);
@@ -636,7 +656,7 @@ var ProductForm = function (_React$Component) {
                         { htmlFor: "image-input" },
                         "image"
                     ),
-                    _react2.default.createElement(_image_input2.default, { handleFile: this.handleImageFile })
+                    _react2.default.createElement(_image_input2.default, { src: this.state.product.image_url, handleFile: this.handleImageFile })
                 ),
                 _react2.default.createElement(
                     "div",

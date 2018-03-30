@@ -110,7 +110,7 @@ export default class ProductForm extends React.Component{
         : <form className = "product-form" onSubmit={this.handleSubmit}>
             <div className = "form-row">
                 <label htmlFor="image-input">image</label>
-                <ImageInput handleFile={this.handleImageFile}/>
+                <ImageInput src={this.state.product.image_url} handleFile={this.handleImageFile}/>
             </div>
             <div className = "form-row">
                 <label htmlFor="title">Title</label>
