@@ -6,7 +6,7 @@ class Products extends React.Component{
     constructor(props){
         super(props);
         this.state = {categories: {}, results: [], loading: true};
-        this.categories = ["underwear", "swimsuits"];
+        this.categories = ["underwear", "swimsuit"];
         this.categories.forEach(category=>{
             this.state.categories[category] = false;
         });

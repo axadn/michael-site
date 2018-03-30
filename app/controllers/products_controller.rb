@@ -31,7 +31,7 @@ class ProductsController < ApplicationController
         @product = Product.new product_params
         @product.active = false
         if @product.save
-            render json: presigned_img_fields(params[:image_extension])
+            render json: presigned_img_fields
         else
             render json: @product.errors.full_messages, status: 422
         end
@@ -40,15 +40,21 @@ class ProductsController < ApplicationController
     def update
         @product = Product.find_by(id: params[:id])
         if @product
-            @product.attribs = product_params
+            @product.attributes = product_params
             if @product.save
-                render :show
+                render json: presigned_img_fields   
             else
                 render json: @product.errors.messages, status: 422
             end
         else
             render json: {general: "no such product"}, status: 404
         end
+    end
+
+    def img_presigned_post
+        s3_bucket.object.object(s3_image_path @product)
+                        .presigned_post(s3_image_path @product)
+                        .fields
     end
 
     def batch_update
@@ -100,10 +106,10 @@ class ProductsController < ApplicationController
         @user && @user.is_admin?
     end
 
-    def presigned_img_fields(image_extension)
+    def presigned_img_fields
         obj = s3_bucket.object s3_image_path(@product)
         post = obj.presigned_post(key: s3_image_path(@product))
-        post.fields
+        {fields: post.fields, url: post.url}
     end
 
     def s3_image_path(product)

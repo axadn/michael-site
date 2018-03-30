@@ -386,6 +386,93 @@ exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(_login2.def
 
 /***/ }),
 
+/***/ "./admin/components/products/image_input.jsx":
+/*!***************************************************!*\
+  !*** ./admin/components/products/image_input.jsx ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UpdatableImage = function (_React$Component) {
+  _inherits(UpdatableImage, _React$Component);
+
+  function UpdatableImage(props) {
+    _classCallCheck(this, UpdatableImage);
+
+    var _this = _possibleConstructorReturn(this, (UpdatableImage.__proto__ || Object.getPrototypeOf(UpdatableImage)).call(this, props));
+
+    _this.state = { src: false };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(UpdatableImage, [{
+    key: "handleChange",
+    value: function handleChange(e) {
+      var file = e.target.files[0];
+      this.setState({ src: URL.createObjectURL(file) });
+      URL.revokeObjectURL(this.props.src);
+      if (this.props.handleFile) {
+        this.props.handleFile(file);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var button = void 0;
+      if (this.props.editable) {
+        button = _react2.default.createElement(
+          "button",
+          {
+            onClick: function onClick() {
+              return document.getElementById(_this2.props.inputId).click();
+            } },
+          "Update Image"
+        );
+      }
+      var src = this.state.src || this.props.src;
+      return _react2.default.createElement(
+        "div",
+        { className: "image-input-container" },
+        _react2.default.createElement("img", { className: "product-image", src: src }),
+        _react2.default.createElement("input", { type: "file", className: "image-input",
+          id: this.props.inputId,
+          onChange: this.handleChange }),
+        button
+      );
+    }
+  }]);
+
+  return UpdatableImage;
+}(_react2.default.Component);
+
+exports.default = UpdatableImage;
+
+/***/ }),
+
 /***/ "./admin/components/products/product_form.jsx":
 /*!****************************************************!*\
   !*** ./admin/components/products/product_form.jsx ***!
@@ -410,6 +497,10 @@ var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _image_input = __webpack_require__(/*! ./image_input */ "./admin/components/products/image_input.jsx");
+
+var _image_input2 = _interopRequireDefault(_image_input);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -432,6 +523,8 @@ var ProductForm = function (_React$Component) {
         _this.state = { loading: true, errors: [], product: _this.emptyProduct() };
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
+        _this.handleImageFile = _this.handleImageFile.bind(_this);
+        _this.uploadFile = _this.uploadFile.bind(_this);
         return _this;
     }
 
@@ -473,6 +566,11 @@ var ProductForm = function (_React$Component) {
             });
         }
     }, {
+        key: "handleImageFile",
+        value: function handleImageFile(file) {
+            this.setState(Object.assign({}, this.state, { file: file }));
+        }
+    }, {
         key: "handleChange",
         value: function handleChange(key) {
             var _this3 = this;
@@ -483,13 +581,37 @@ var ProductForm = function (_React$Component) {
             };
         }
     }, {
+        key: "uploadFile",
+        value: function uploadFile(s3Info) {
+            var formData = new FormData();
+            Object.entries(s3Info.fields).forEach(function (entry) {
+                formData.set(entry[0], entry[1]);
+            });
+            formData.set('file', this.state.file);
+            return _axios2.default.post(s3Info.url, formData, { headers: { 'Content-Type': 'multi-part/form-data' } });
+        }
+    }, {
         key: "handleSubmit",
         value: function handleSubmit(e) {
             var _this4 = this;
 
+            this.setState({ uploading: true });
             e.preventDefault();
-            _axios2.default.post('/api/products.json', { product: this.state.product }).then(function (result) {
-                window.location = '/admin#/products';
+            var loc = this.props.match.url;
+            var axiosAction = void 0;
+            if (loc.substring(loc.length - 4) == "edit") {
+                axiosAction = _axios2.default.put("/api/products/" + this.state.product.id + ".json", { product: this.state.product });
+            } else {
+                axiosAction = _axios2.default.post('/api/products.json', { product: this.state.product });
+            }
+            axiosAction.then(function (result) {
+                if (_this4.state.file) {
+                    _this4.uploadFile(result.data).then(function (result) {
+                        window.location = '/admin#/products';
+                    }).catch(function (error) {});
+                } else {
+                    window.location = '/admin#/products';
+                }
             }).catch(function (error) {
                 _this4.setState(Object.assign({}, _this4.state, { errors: error.response.data }));
             });
@@ -514,7 +636,7 @@ var ProductForm = function (_React$Component) {
                         { htmlFor: "image-input" },
                         "image"
                     ),
-                    _react2.default.createElement("input", { id: "image-input", type: "file" })
+                    _react2.default.createElement(_image_input2.default, { handleFile: this.handleImageFile })
                 ),
                 _react2.default.createElement(
                     "div",
@@ -28701,7 +28823,7 @@ var ProductItem = function (_React$Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "product-item" },
-                _react2.default.createElement("img", { src: this.props.product.image_url,
+                _react2.default.createElement("img", { className: "product-image", src: this.props.product.image_url,
                     onClick: function onClick() {
                         return _this2.props.handleSelected ? _this2.props.handleSelected(_this2.props.product.id) : null;
                     } }),
@@ -28779,7 +28901,7 @@ var Products = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Products.__proto__ || Object.getPrototypeOf(Products)).call(this, props));
 
         _this.state = { categories: {}, results: [], loading: true };
-        _this.categories = ["underwear", "swimsuits"];
+        _this.categories = ["underwear", "swimsuit"];
         _this.categories.forEach(function (category) {
             _this.state.categories[category] = false;
         });

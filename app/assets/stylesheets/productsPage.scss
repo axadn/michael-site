@@ -8,6 +8,7 @@
     display: inline-block;
     padding: 20px;
     margin-right: 20px;
+    flex-shrink: 0;
     background-color: $light-overlay-style;
 }
 .product-search-options ul{
@@ -26,7 +27,7 @@
     position: relative;
 }
 
-.product-item img{
+.product-image{
     border: $outline-style;
     width: 200px;
     height: 300px;

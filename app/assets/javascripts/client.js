@@ -28711,7 +28711,7 @@ var ProductItem = function (_React$Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "product-item" },
-                _react2.default.createElement("img", { src: this.props.product.image_url,
+                _react2.default.createElement("img", { className: "product-image", src: this.props.product.image_url,
                     onClick: function onClick() {
                         return _this2.props.handleSelected ? _this2.props.handleSelected(_this2.props.product.id) : null;
                     } }),
@@ -28789,7 +28789,7 @@ var Products = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Products.__proto__ || Object.getPrototypeOf(Products)).call(this, props));
 
         _this.state = { categories: {}, results: [], loading: true };
-        _this.categories = ["underwear", "swimsuits"];
+        _this.categories = ["underwear", "swimsuit"];
         _this.categories.forEach(function (category) {
             _this.state.categories[category] = false;
         });
