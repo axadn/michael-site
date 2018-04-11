@@ -37,12 +37,15 @@ export default class UpdatableImage extends React.Component{
         onChange={this.handleChange}></input>
       <button
          onClick={this.handleClick}>
-         Update Image</button>
+          <i className="fa fa-file-image-o" aria-hidden="true"></i>
+          {" Update Image"}
+      </button>
       {
         this.state.src ?
           <button 
             onClick={this.handleRevert}>
-            Revert
+            <i className="fa fa-undo" aria-hidden="true"></i>
+            {" Revert"}
           </button>
         :
         ""

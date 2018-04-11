@@ -474,13 +474,15 @@ var UpdatableImage = function (_React$Component) {
           "button",
           {
             onClick: this.handleClick },
-          "Update Image"
+          _react2.default.createElement("i", { className: "fa fa-file-image-o", "aria-hidden": "true" }),
+          " Update Image"
         ),
         this.state.src ? _react2.default.createElement(
           "button",
           {
             onClick: this.handleRevert },
-          "Revert"
+          _react2.default.createElement("i", { className: "fa fa-undo", "aria-hidden": "true" }),
+          " Revert"
         ) : ""
       );
     }

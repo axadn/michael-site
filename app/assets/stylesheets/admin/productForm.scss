@@ -39,3 +39,13 @@
 .product-form .form-row:last-child button:first-child{
     margin-left: 0px;
 }
+.image-input-container{
+    display: flex;
+}
+.image-input-container button{
+    margin-left: 10px;
+}
+.image-input-container input{
+    display:none;
+
+}

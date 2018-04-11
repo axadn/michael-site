@@ -1,4 +1,9 @@
 import React from 'react';
+import SlideShow from '../slideshow/slideshow';
 export default props => <div className = "home-page">
-    <img src="https://calvinklein.scene7.com/is/image/CalvinKlein/63131029_010_main?wid=1287&hei=1694&fmt=jpeg&qlt=85%2C0&resMode=sharp2&op_usm=0.9%2C1.0%2C8%2C0&iccEmbed=0"/>
+    <SlideShow images={
+        ["https://www.collegefashion.net/.image/t_share/MTQ5Mzc5MzY4OTY2MjM1ODMw/hm.png",
+        "https://gloimg.zafcdn.com/zaful/pdm-product-pic/Clothing/2017/09/14/grid-img/1512949414873440846.jpg"
+        ]
+        } frequency={3000}/>
 </div>;

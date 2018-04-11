@@ -428,13 +428,17 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _slideshow = __webpack_require__(/*! ../slideshow/slideshow */ "./client/components/slideshow/slideshow.jsx");
+
+var _slideshow2 = _interopRequireDefault(_slideshow);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (props) {
     return _react2.default.createElement(
-        "div",
-        { className: "home-page" },
-        _react2.default.createElement("img", { src: "https://calvinklein.scene7.com/is/image/CalvinKlein/63131029_010_main?wid=1287&hei=1694&fmt=jpeg&qlt=85%2C0&resMode=sharp2&op_usm=0.9%2C1.0%2C8%2C0&iccEmbed=0" })
+        'div',
+        { className: 'home-page' },
+        _react2.default.createElement(_slideshow2.default, { images: ["https://www.collegefashion.net/.image/t_share/MTQ5Mzc5MzY4OTY2MjM1ODMw/hm.png", "https://gloimg.zafcdn.com/zaful/pdm-product-pic/Clothing/2017/09/14/grid-img/1512949414873440846.jpg"], frequency: 3000 })
     );
 };
 
@@ -915,6 +919,84 @@ var QuantitySelector = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = QuantitySelector;
+
+/***/ }),
+
+/***/ "./client/components/slideshow/slideshow.jsx":
+/*!***************************************************!*\
+  !*** ./client/components/slideshow/slideshow.jsx ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SlideShow = function (_React$Component) {
+    _inherits(SlideShow, _React$Component);
+
+    function SlideShow(props) {
+        _classCallCheck(this, SlideShow);
+
+        var _this = _possibleConstructorReturn(this, (SlideShow.__proto__ || Object.getPrototypeOf(SlideShow)).call(this, props));
+
+        _this.state = { index: 0 };
+        _this.changeSlide = _this.changeSlide.bind(_this);
+        return _this;
+    }
+
+    _createClass(SlideShow, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "slideshow-component" },
+                _react2.default.createElement("img", { className: "slideshow-image", src: this.props.images[this.state.index] })
+            );
+        }
+    }, {
+        key: "changeSlide",
+        value: function changeSlide() {
+            var _this2 = this;
+
+            this.setState(function (state, props) {
+                return { index: (state.index + 1) % _this2.props.images.length };
+            });
+        }
+    }, {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            this.interval = setInterval(this.changeSlide, this.props.frequency);
+        }
+    }, {
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+            clearInterval(this.interval);
+        }
+    }]);
+
+    return SlideShow;
+}(_react2.default.Component);
+
+exports.default = SlideShow;
 
 /***/ }),
 
