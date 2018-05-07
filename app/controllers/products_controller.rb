@@ -87,6 +87,7 @@ class ProductsController < ApplicationController
     def render_success
         render json: {sucess: true}
     end
+    
     def destroy
         @product = Product.find(params[:id])
         if @product 
