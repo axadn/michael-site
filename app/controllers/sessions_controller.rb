@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
     def create
-        debugger
         @user = User.find_by_credentials login_params
         if @user
             if session.key? :session_token
