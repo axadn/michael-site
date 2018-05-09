@@ -59,7 +59,19 @@ class CartsController < ApplicationController
     end
 
     def order
-        
+        ActiveRecord::Base.connection.execute(
+            <<-SQL
+                INSERT INTO sale_records (title, date, count)
+                    SELECT products.title, current_date, order_items.quantity
+                    FROM products
+                    JOIN order_items 
+                    ON products.id = order_items.product_id
+                    WHERE order_items.order_id = #{@cart.id}
+                ON CONFLICT(date, title) DO 
+                    UPDATE SET count = sale_records.count + excluded.count
+                ;
+            SQL
+        )
         @cart.order_items.delete_all unless @cart.order_items.nil?
     end
 end

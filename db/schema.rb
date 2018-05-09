@@ -58,11 +58,11 @@ ActiveRecord::Schema.define(version: 20180509002057) do
     t.index ["title"], name: "index_products_on_title", unique: true
   end
 
-  create_table "saleRecords", force: :cascade do |t|
+  create_table "sale_records", force: :cascade do |t|
     t.string "title", null: false
     t.integer "count", null: false
     t.datetime "date", null: false
-    t.index ["date", "title"], name: "index_saleRecords_on_date_and_title", unique: true
+    t.index ["date", "title"], name: "index_sale_records_on_date_and_title", unique: true
   end
 
   create_table "sessions", force: :cascade do |t|
