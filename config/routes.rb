@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   scope '/api', constraints: { format: 'json' } do
     resources :products
     put '/products', to: 'products#batch_update'
-    get '/salesRecords', to: 'salesRecords#show'
+    resources :sales, only: [:index]
     resources :addresses, except: [:index]
     resource :session, only: [:create, :destroy]
     resource :cart, only: [:show, :update, :destroy]

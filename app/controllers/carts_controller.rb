@@ -57,4 +57,9 @@ class CartsController < ApplicationController
             render :show
         end
     end
+
+    def order
+        
+        @cart.order_items.delete_all unless @cart.order_items.nil?
+    end
 end
