@@ -30,7 +30,6 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
 gem 'aws-sdk-s3'
-gem 'mongo', '~> 2.4'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
