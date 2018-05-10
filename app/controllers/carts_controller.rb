@@ -38,6 +38,7 @@ class CartsController < ApplicationController
                 render :show
             end
         when 'ADD_ITEM'
+            ## if this item is already in the cart we will just update the quantity
             product = Product.find_by(id: @action[:product_id])
             if product
                 @order_item = OrderItem.new product_id: @action[:product_id],
@@ -59,7 +60,11 @@ class CartsController < ApplicationController
     end
 
     def order
-        ActiveRecord::Base.connection.execute(
+        ### We are doing it this way to ensure it is atomic.
+        ### This method also requires that we don't insert
+        ### duplicate rows violating the uniqueness constraint,
+        ### so there can't be duplicate cart items.
+        ActiveRecord::Base.connection.execute( 
             <<-SQL
                 INSERT INTO sale_records (title, date, count)
                     SELECT products.title, current_date, order_items.quantity
