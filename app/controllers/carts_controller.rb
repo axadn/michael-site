@@ -38,20 +38,32 @@ class CartsController < ApplicationController
                 render :show
             end
         when 'ADD_ITEM'
-            ## if this item is already in the cart we will just update the quantity
-            product = Product.find_by(id: @action[:product_id])
-            if product
-                @order_item = OrderItem.new product_id: @action[:product_id],
-                quantity: @action[:quantity],
-                order_id: @cart.id,
-                unit_price: product.unit_price
-                if @order_item.save
+            ## if this item is already in the cart we will just update the quantity, otherwise add it
+            if @action[:quantity].to_i > 0 
+                begin
+                    ActiveRecord::Base.connection.execute(
+                        <<-SQL
+                            INSERT INTO order_items (quantity, order_id, product_id, unit_price, created_at, updated_at)
+                                VALUES (#{@action[:quantity].to_i}, #{@cart.id}, #{@action[:product_id].to_i},
+                                    (SELECT unit_price 
+                                    FROM products 
+                                    WHERE products.id = #{@action[:product_id].to_i}
+                                    ),
+                                    current_timestamp, current_timestamp
+                                )
+                            ON CONFLICT (order_id, product_id) DO
+                                    UPDATE SET quantity = order_items.quantity + excluded.quantity,
+                                        unit_price = excluded.unit_price,
+                                        updated_at = current_timestamp
+                            ;
+                        SQL
+                    )
                     render plain: "success"
-                else
-                    render json: @order_item.errors.messages, status: 422
-                end 
+                rescue Exception => e
+                    render plain: e.message, status: 422
+                end
             else
-                render json: {general: 'product not found'}, status: 404
+                render plain: "error", status: 422
             end
         when 'CLEAR_CART'
             @cart.order_items.delete_all unless @cart.order_items.nil?
@@ -59,11 +71,11 @@ class CartsController < ApplicationController
         end
     end
 
-    def order
+    def order #adds the quantity of each item to the tally for current date
         ### We are doing it this way to ensure it is atomic.
         ### This method also requires that we don't insert
         ### duplicate rows violating the uniqueness constraint,
-        ### so there can't be duplicate cart items.
+        ### so there can't be duplicate cart items
         ActiveRecord::Base.connection.execute( 
             <<-SQL
                 INSERT INTO sale_records (title, date, count)
