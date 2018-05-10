@@ -1,26 +1,16 @@
 class SalesController < ApplicationController
     def index
         if params[:view] == "all"
-            histogramData = ActiveRecord::Base.connection.execute(
-                <<-SQL
-                    SELECT SUM(count)
-                    FROM saleRecords
-                    WHERE extract("month", date) = ?
-                    GROUP BY date
-                    ORDER BY date;
-                SQL
-                ,[params[:month]]
-            )
+            render json: SaleRecord.where("EXTRACT('month' FROM date) = ?", 
+                params[:month])
+            .group("sale_records.date")
+            .order(:date)
+            .pluck("EXTRACT('day' FROM date), SUM(count)")
         elsif params[:view] == "title"
-            histogramData = ActiveRecord::Base.connection.execute(
-                <<-SQL
-                    SELECT count
-                    FROM saleRecords
-                    WHERE extract("month", date) = ? AND title = ?
-                    ORDER BY date;
-                SQL
-                ,[params[:month], params[:title]]
-            )
+            render json: SaleRecord.where("EXTRACT('month' FROM date) = ? AND title = ?",
+                params[:month], params[:title])
+            .order(:date)
+            .pluck("UNIQUE EXTRACT('day' FROM date), count")
         else
             render json: {general: "view not specified"}, status: 422
         end
