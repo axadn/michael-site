@@ -59,8 +59,8 @@ class CartsController < ApplicationController
                         SQL
                     )
                     render plain: "success"
-                rescue Exception => e
-                    render plain: e.message, status: 422
+                rescue
+                    render plain: "error", status: 422
                 end
             else
                 render plain: "error", status: 422
