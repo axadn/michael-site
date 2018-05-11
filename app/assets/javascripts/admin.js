@@ -176,6 +176,14 @@ var _product_form = __webpack_require__(/*! ./products/product_form */ "./admin/
 
 var _product_form2 = _interopRequireDefault(_product_form);
 
+var _nav_bar = __webpack_require__(/*! ./nav_bar */ "./admin/components/nav_bar.js");
+
+var _nav_bar2 = _interopRequireDefault(_nav_bar);
+
+var _sales = __webpack_require__(/*! ./sales/sales */ "./admin/components/sales/sales.js");
+
+var _sales2 = _interopRequireDefault(_sales);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -205,8 +213,9 @@ var App = function (_React$Component) {
                     _react2.default.createElement(
                         "div",
                         { className: "app" },
+                        _react2.default.createElement(_nav_bar2.default, null),
                         _react2.default.createElement(
-                            "div",
+                            "section",
                             { className: "main-content" },
                             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _login_container2.default }),
                             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/products", render: function render(props) {
@@ -217,7 +226,8 @@ var App = function (_React$Component) {
                                     );
                                 } }),
                             _react2.default.createElement(_reactRouterDom.Route, { path: "/products/:id/edit", component: _product_form2.default }),
-                            _react2.default.createElement(_reactRouterDom.Route, { path: "/products/new", component: _product_form2.default })
+                            _react2.default.createElement(_reactRouterDom.Route, { path: "/products/new", component: _product_form2.default }),
+                            _react2.default.createElement(_reactRouterDom.Route, { path: "/sales", component: _sales2.default })
                         )
                     )
                 )
@@ -383,6 +393,47 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(_login2.default);
+
+/***/ }),
+
+/***/ "./admin/components/nav_bar.js":
+/*!*************************************!*\
+  !*** ./admin/components/nav_bar.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+    return _react2.default.createElement(
+        "header",
+        { className: "admin-nav-bar" },
+        _react2.default.createElement(
+            _reactRouterDom.NavLink,
+            { to: "/products" },
+            "Products"
+        ),
+        _react2.default.createElement(
+            _reactRouterDom.NavLink,
+            { to: "/sales" },
+            "Sales"
+        )
+    );
+};
 
 /***/ }),
 
@@ -1040,6 +1091,86 @@ var ProductsIndex = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = ProductsIndex;
+
+/***/ }),
+
+/***/ "./admin/components/sales/sales.js":
+/*!*****************************************!*\
+  !*** ./admin/components/sales/sales.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Sales = function (_React$Component) {
+    _inherits(Sales, _React$Component);
+
+    function Sales(props) {
+        _classCallCheck(this, Sales);
+
+        var _this = _possibleConstructorReturn(this, (Sales.__proto__ || Object.getPrototypeOf(Sales)).call(this, props));
+
+        _this.state = { products: [], histogram: [], total: 0 };
+        return _this;
+    }
+
+    _createClass(Sales, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            debugger;
+            this.fetchData(this.props.location.search);
+        }
+    }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(newProps) {
+            if (this.props.location.search != newProps.location.search) {
+                this.fetchData(newProps.location.search);
+            }
+        }
+    }, {
+        key: "fetchData",
+        value: function fetchData(queryString) {
+            _axios2.default.get("/api/sales.json" + queryString).then(function (result) {
+                debugger;
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement("section", { className: "sales-component" });
+        }
+    }]);
+
+    return Sales;
+}(_react2.default.Component);
+
+exports.default = (0, _reactRouterDom.withRouter)(Sales);
 
 /***/ }),
 
