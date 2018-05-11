@@ -1207,11 +1207,14 @@ var Sales = function (_React$Component) {
             var idx = 0;
             context.fillStyle = "black";
             debugger;
+            var quantity = void 0;
             for (var day = 1; day <= daysInMonth; ++day) {
                 if (idx < this.state.histogram.length && this.state.histogram[idx][0] == day) {
-                    context.fillRect((day - 1) * canvasWidth / daysInMonth - blipSize / 2 + padding, canvasHeight - canvasHeight * this.state.histogram[idx][1] / max - blipSize / 2 + padding, blipSize, blipSize);
-                    ++idx;
+                    quantity = this.state.histogram[idx++][1];
+                } else {
+                    quantity = 0;
                 }
+                context.fillRect((day - 1) * canvasWidth / daysInMonth - blipSize / 2 + padding, canvasHeight - canvasHeight * quantity / max - blipSize / 2 + padding, blipSize, blipSize);
             }
         }
     }, {
