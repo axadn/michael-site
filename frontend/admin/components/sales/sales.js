@@ -14,8 +14,7 @@ class Sales extends React.Component{
             const now = new Date();
             queryString = `?month=${now.getMonth() + 1}&year=${now.getFullYear()}`;
         }
-        window.q = queryUtil;
-        debugger;
+        window.q = queryUtil;    
         const query = queryUtil.parse(queryString);
         this.setState((state => Object.assign({}, state, {query})));
         this.fetchData(queryString);
@@ -62,7 +61,6 @@ class Sales extends React.Component{
         let canvasHeight = canvas.clientHeight - padding * 2;
         let idx = 0;
         context.fillStyle = "black";
-        debugger;
         let quantity;
         for(let day = 1; day <= daysInMonth; ++day){
             if(idx < this.state.histogram.length && this.state.histogram[idx][0] == day){

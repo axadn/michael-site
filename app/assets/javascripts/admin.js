@@ -1153,7 +1153,6 @@ var Sales = function (_React$Component) {
                 queryString = "?month=" + (now.getMonth() + 1) + "&year=" + now.getFullYear();
             }
             window.q = _queryString2.default;
-            debugger;
             var query = _queryString2.default.parse(queryString);
             this.setState(function (state) {
                 return Object.assign({}, state, { query: query });
@@ -1206,7 +1205,6 @@ var Sales = function (_React$Component) {
             var canvasHeight = canvas.clientHeight - padding * 2;
             var idx = 0;
             context.fillStyle = "black";
-            debugger;
             var quantity = void 0;
             for (var day = 1; day <= daysInMonth; ++day) {
                 if (idx < this.state.histogram.length && this.state.histogram[idx][0] == day) {
