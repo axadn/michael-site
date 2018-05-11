@@ -1120,6 +1120,10 @@ var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
+
+var _queryString2 = _interopRequireDefault(_queryString);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1136,34 +1140,93 @@ var Sales = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Sales.__proto__ || Object.getPrototypeOf(Sales)).call(this, props));
 
-        _this.state = { products: [], histogram: [], total: 0 };
+        _this.state = { titles: [], histogram: [], total: 0, query: {} };
+        _this.drawCanvas = _this.drawCanvas.bind(_this);
         return _this;
     }
 
     _createClass(Sales, [{
+        key: "recieveQuery",
+        value: function recieveQuery(queryString) {
+            if (!queryString) {
+                var now = new Date();
+                queryString = "?month=" + (now.getMonth() + 1) + "&year=" + now.getFullYear();
+            }
+            window.q = _queryString2.default;
+            debugger;
+            var query = _queryString2.default.parse(queryString);
+            this.setState(function (state) {
+                return Object.assign({}, state, { query: query });
+            });
+            this.fetchData(queryString);
+        }
+    }, {
         key: "componentDidMount",
         value: function componentDidMount() {
-            debugger;
-            this.fetchData(this.props.location.search);
+            this.recieveQuery(this.props.location.search);
         }
     }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(newProps) {
             if (this.props.location.search != newProps.location.search) {
-                this.fetchData(newProps.location.search);
+                this.recieveQuery(newProps.location.search);
             }
         }
     }, {
         key: "fetchData",
         value: function fetchData(queryString) {
+            var _this2 = this;
+
             _axios2.default.get("/api/sales.json" + queryString).then(function (result) {
-                debugger;
+                _this2.setState(function (state, props) {
+                    return Object.assign({}, state, { total: result.data.histogram.reduce(function (accum, tuple) {
+                            return accum + tuple[1];
+                        }),
+                        histogram: result.data.histogram,
+                        titles: result.data.titles });
+                }, _this2.drawCanvas);
             });
+        }
+    }, {
+        key: "drawCanvas",
+        value: function drawCanvas() {
+            var canvas = document.querySelector(".sales-histogram");
+            var context = canvas.getContext('2d');
+            context.clearRect(0, 0, canvasWidth, canvasHeight);
+            var daysInMonth = new Date(this.state.query.year, this.state.query.month, //javaScript's months are zero based, but our database's aren't /
+            // so this gets the next month
+            0 //0 gets the last day of the previous 
+            ).getDate();
+            var max = this.state.histogram.reduce(function (accum, tuple) {
+                return accum > tuple[1] ? accum : tuple[1];
+            }, 0);
+            var blipSize = 4;
+            var padding = 4;
+            var canvasWidth = canvas.clientWidth - padding * 2;
+            var canvasHeight = canvas.clientHeight - padding * 2;
+            var idx = 0;
+            context.fillStyle = "black";
+            debugger;
+            for (var day = 1; day <= daysInMonth; ++day) {
+                if (idx < this.state.histogram.length && this.state.histogram[idx][0] == day) {
+                    context.fillRect((day - 1) * canvasWidth / daysInMonth - blipSize / 2 + padding, canvasHeight - canvasHeight * this.state.histogram[idx][1] / max - blipSize / 2 + padding, blipSize, blipSize);
+                    ++idx;
+                }
+            }
+        }
+    }, {
+        key: "shouldComponentUpdate",
+        value: function shouldComponentUpdate() {
+            return false;
         }
     }, {
         key: "render",
         value: function render() {
-            return _react2.default.createElement("section", { className: "sales-component" });
+            return _react2.default.createElement(
+                "section",
+                { className: "sales-component" },
+                _react2.default.createElement("canvas", { className: "sales-histogram" })
+            );
         }
     }]);
 
